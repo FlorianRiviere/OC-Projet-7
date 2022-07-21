@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config({ path: "config/.env" });
 
+const userRoutes = require("./routes/user");
+
 mongoose
   .connect(process.env.SECRET_MDB)
   .then(() => {
@@ -28,5 +30,7 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use("/api/users", userRoutes);
 
 module.exports = app;
