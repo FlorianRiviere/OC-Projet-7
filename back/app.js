@@ -1,10 +1,12 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const path = require("path");
 require("dotenv").config({ path: "config/.env" });
 
 const userRoutes = require("./routes/user");
+
+const app = express();
 
 mongoose
   .connect(process.env.SECRET_MDB)
@@ -28,8 +30,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoutes);
 
