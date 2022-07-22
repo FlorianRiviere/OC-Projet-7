@@ -18,6 +18,7 @@ const userSchema = mongoose.Schema(
     department: { type: String, required: true },
     picture: { type: String, default: "../public/default-image.png" },
     isAdmin: { type: Boolean, default: false },
+    biography: { type: String, max: 1000 },
     followers: { type: [String] },
     following: { type: [String] },
     likes: { type: [String] },
