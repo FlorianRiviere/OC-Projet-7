@@ -64,6 +64,9 @@ exports.login = (req, res, next) => {
 //  Récupérer les utilisateurs
 
 exports.getAllUsers = (req, res, next) => {
+  if (user._id != req.auth.userId) {
+    return res.status(401).json({ message: "non autorisé !" });
+  }
   User.find()
     .select("-password")
     .then((users) => res.status(200).json(users))
@@ -73,6 +76,9 @@ exports.getAllUsers = (req, res, next) => {
 // Récupérer un utilisateur
 
 exports.getUser = (req, res, next) => {
+  if (user._id != req.auth.userId) {
+    return res.status(401).json({ message: "non autorisé !" });
+  }
   User.findOne({ _id: req.params.id })
     .select("-password")
     .then((users) => res.status(200).json(users))
@@ -139,4 +145,44 @@ exports.deleteUser = (req, res, next) => {
       }
     })
     .catch((error) => res.status(500).json(error));
+};
+
+// Gestion des follow
+
+exports.follow = (req, res, next) => {
+  User.findOne({ _id: req.params.id }).then((user) => {
+    if (user._id != req.auth.userId) {
+      return res.status(401).json({ message: "non autorisé !" });
+    }
+    switch (follow) {
+      case 1:
+        if (!user.following.includes(req.body.idToFollow)) {
+          User.updateOne(
+            { _id: req.params.id },
+            { $push: { following: req.body.idToFollow } }
+          ),
+            ({ _id: req.body.idToFollow },
+            { $push: { followers: req.auth.userId } })
+              .then(() => {
+                res.status(200).json({ message: "Sauce liked!" });
+              })
+              .catch((error) => res.status(400).json({ error }));
+        }
+        break;
+      case 0:
+        if (user.following.includes(req.body.idToFollow)) {
+          User.updateOne(
+            { _id: req.params.id },
+            { $pull: { following: req.body.idToFollow } }
+          ),
+            ({ _id: req.body.idToFollow },
+            { $pull: { followers: req.auth.userId } })
+              .then(() => {
+                res.status(200).json({ message: "Sauce liked!" });
+              })
+              .catch((error) => res.status(400).json({ error }));
+        }
+        break;
+    }
+  });
 };
