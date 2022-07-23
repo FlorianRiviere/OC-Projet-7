@@ -4,6 +4,8 @@ const fs = require("fs");
 
 const User = require("../models/user");
 
+/***************************** Authentification *****************************/
+
 // Création du compte utilisateur
 
 exports.signup = (req, res, next) => {
@@ -61,12 +63,11 @@ exports.login = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+/************************************* Users *************************************/
+
 //  Récupérer les utilisateurs
 
 exports.getAllUsers = (req, res, next) => {
-  if (user._id != req.auth.userId) {
-    return res.status(401).json({ message: "non autorisé !" });
-  }
   User.find()
     .select("-password")
     .then((users) => res.status(200).json(users))
@@ -76,9 +77,6 @@ exports.getAllUsers = (req, res, next) => {
 // Récupérer un utilisateur
 
 exports.getUser = (req, res, next) => {
-  if (user._id != req.auth.userId) {
-    return res.status(401).json({ message: "non autorisé !" });
-  }
   User.findOne({ _id: req.params.id })
     .select("-password")
     .then((users) => res.status(200).json(users))
@@ -170,12 +168,12 @@ exports.follow = (req, res, next) => {
         }
         break;
       case 0:
-        if (user.following.includes(req.body.idToFollow)) {
+        if (user.following.includes(req.body.idToUnfollow)) {
           User.updateOne(
             { _id: req.params.id },
-            { $pull: { following: req.body.idToFollow } }
+            { $pull: { following: req.body.idToUnfollow } }
           ),
-            ({ _id: req.body.idToFollow },
+            ({ _id: req.body.idToUnfollow },
             { $pull: { followers: req.auth.userId } })
               .then(() => {
                 res.status(200).json({ message: "Sauce liked!" });

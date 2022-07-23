@@ -16,12 +16,15 @@ const userSchema = mongoose.Schema(
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     department: { type: String, required: true },
+    manager: { type: Boolean, required: true },
     picture: { type: String, default: "../public/default-image.png" },
     isAdmin: { type: Boolean, default: false },
     biography: { type: String, max: 1000 },
     followers: { type: [String] },
     following: { type: [String] },
-    likes: { type: [String] },
+    postliked: { type: [String] },
+    comments: { type: [String] },
+    commentsliked: { type: [String] },
   },
   { timestamps: true }
 );
