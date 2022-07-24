@@ -6,6 +6,7 @@ require("dotenv").config({ path: "config/.env" });
 
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
+const commentRoutes = require("./routes/comments");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/public", express.static(path.join(__dirname, "public")));
