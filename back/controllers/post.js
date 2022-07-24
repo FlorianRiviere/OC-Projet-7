@@ -6,11 +6,9 @@ const User = require("../models/user");
 // Création du post
 
 exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
-  delete postObject._id;
-  delete postObject.author;
   const post = new Post({
-    author: req.auth.userId,
+    author: req.body.author,
+    content: req.body.content,
     picture: `${req.protocol}://${req.get("host")}/images/posts/${
       req.file.filename
     }`,
@@ -52,7 +50,7 @@ exports.modifyPost = (req, res, next) => {
   delete postObject._userId;
   Post.findOne({ _id: req.params.id })
     .then((post) => {
-      if ((post.author = req.auth.userId || User.isAdmin == true)) {
+      if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
         if (postObject.picture == undefined) {
           Post.updateOne(
             { _id: req.params.id },
@@ -83,7 +81,7 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   Post.findOne({ _id: req.params.id })
     .then((post) => {
-      if ((post.author = req.auth.userId || User.isAdmin == true)) {
+      if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
         const filename = post.picture.split("/images/posts/")[1];
         fs.unlink(`images/posts/${filename}`, () => {
           Post.deleteOne(
@@ -121,6 +119,10 @@ exports.likePost = (req, res, next) => {
               { _id: req.params.id },
               { $push: { usersLiked: req.auth.userId }, $inc: { likes: +1 } }
             );
+            User.updateOne(
+              { _id: req.auth.userId },
+              { $push: { postLiked: Post._id } }
+            );
           }
           break;
         case -1:
@@ -131,6 +133,10 @@ exports.likePost = (req, res, next) => {
                 $pull: { usersLiked: req.auth.userId },
                 $inc: { likes: -1 },
               }
+            );
+            User.updateOne(
+              { _id: req.auth.userId },
+              { $pull: { postLiked: Post._id } }
             );
           }
           if (!post.usersDisliked.includes(req.auth.userId)) {
@@ -159,6 +165,10 @@ exports.likePost = (req, res, next) => {
                 $pull: { usersLiked: req.auth.userId },
                 $inc: { likes: -1 },
               }
+            );
+            User.updateOne(
+              { _id: req.auth.userId },
+              { $pull: { postLiked: Post._id } }
             );
           }
           break;

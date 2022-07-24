@@ -13,7 +13,7 @@ router.post("/login", userCtrl.login);
 
 // Comptes utilisateurs
 
-router.get("/", auth, userCtrl.getAllUsers);
+router.get("/", userCtrl.getAllUsers);
 router.get("/:id", auth, userCtrl.getUser);
 router.put("/:id", auth, multer, userCtrl.updateUser);
 router.delete("/:id", auth, userCtrl.deleteUser);

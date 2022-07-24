@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     department: { type: String, required: true },
-    manager: { type: Boolean, required: true },
+    manager: { type: Boolean },
     picture: { type: String, default: "../public/default-image.png" },
     isAdmin: { type: Boolean, default: false },
     biography: { type: String, max: 1000 },
