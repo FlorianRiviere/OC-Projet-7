@@ -1,12 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const path = require("path");
 require("dotenv").config({ path: "config/.env" });
 
-const userRoutes = require("./routes/user");
-const postRoutes = require("./routes/post");
-const commentRoutes = require("./routes/comments");
+const userRoutes = require("./routes/user-routes");
+const postRoutes = require("./routes/post-routes");
+const commentRoutes = require("./routes/comment-routes");
 
 const app = express();
 
@@ -21,9 +20,6 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

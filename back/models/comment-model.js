@@ -8,6 +8,7 @@ const commentSchema = mongoose.Schema(
     dislikes: { type: Number, default: 0 },
     usersLiked: { type: [String] },
     usersDisliked: { type: [String] },
+    postId: { type: String },
   },
   { timestamps: true }
 );

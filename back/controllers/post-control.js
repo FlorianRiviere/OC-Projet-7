@@ -1,22 +1,33 @@
 const fs = require("fs");
 
-const Post = require("../models/post");
-const User = require("../models/user");
+const Post = require("../models/post-model");
+const User = require("../models/user-model");
 
 // Création du post
 
 exports.createPost = (req, res, next) => {
-  const post = new Post({
-    author: req.body.author,
-    content: req.body.content,
-    picture: `${req.protocol}://${req.get("host")}/images/posts/${
-      req.file.filename
-    }`,
-  });
-  post
-    .save()
-    .then(() => res.status(201).json({ message: "Post créé !" }))
-    .catch((error) => res.status(400).json(error));
+  if (req.file) {
+    const post = new Post({
+      author: req.auth.userId,
+      content: req.body.content,
+      picture: `${req.protocol}://${req.get("host")}/images/posts/${
+        req.file.filename
+      }`,
+    });
+    post
+      .save()
+      .then(() => res.status(201).json({ message: "Post créé !" }))
+      .catch((error) => res.status(400).json(error));
+  } else {
+    const post = new Post({
+      author: req.auth.userId,
+      content: req.body.content,
+    });
+    post
+      .save()
+      .then(() => res.status(201).json({ message: "Post créé !" }))
+      .catch((error) => res.status(400).json(error));
+  }
 };
 
 // Récupération des posts
@@ -112,18 +123,29 @@ exports.likePost = (req, res, next) => {
                 $pull: { usersDisliked: req.auth.userId },
                 $inc: { dislikes: -1 },
               }
-            );
+            )
+              .then(() => res.status(200).json({ message: "Dislike enlevé" }))
+              .catch((error) => res.status(400).json(error));
           }
           if (!post.usersLiked.includes(req.auth.userId)) {
             Post.updateOne(
               { _id: req.params.id },
               { $push: { usersLiked: req.auth.userId }, $inc: { likes: +1 } }
-            );
+            )
+              .then(() => res.status(200).json({ message: "Like ajouté" }))
+              .catch((error) => res.status(400).json(error));
             User.updateOne(
               { _id: req.auth.userId },
               { $push: { postLiked: Post._id } }
-            );
+            )
+              .then(() =>
+                res
+                  .status(200)
+                  .json({ message: "Informations utilisateur mises à jour" })
+              )
+              .catch((error) => res.status(400).json(error));
           }
+
           break;
         case -1:
           if (post.usersLiked.includes(req.auth.userId)) {
@@ -133,11 +155,19 @@ exports.likePost = (req, res, next) => {
                 $pull: { usersLiked: req.auth.userId },
                 $inc: { likes: -1 },
               }
-            );
+            )
+              .then(() => res.status(200).json({ message: "Like enlevé" }))
+              .catch((error) => res.status(400).json(error));
             User.updateOne(
               { _id: req.auth.userId },
               { $pull: { postLiked: Post._id } }
-            );
+            )
+              .then(() =>
+                res
+                  .status(200)
+                  .json({ message: "Informations utilisateur mises à jour" })
+              )
+              .catch((error) => res.status(400).json(error));
           }
           if (!post.usersDisliked.includes(req.auth.userId)) {
             Post.updateOne(
@@ -146,7 +176,9 @@ exports.likePost = (req, res, next) => {
                 $push: { usersDisliked: req.auth.userId },
                 $inc: { dislikes: +1 },
               }
-            );
+            )
+              .then(() => res.status(200).json({ message: "Dislike ajouté" }))
+              .catch((error) => res.status(400).json(error));
           }
           break;
         case 0:
@@ -157,7 +189,9 @@ exports.likePost = (req, res, next) => {
                 $pull: { usersDisliked: req.auth.userId },
                 $inc: { dislikes: -1 },
               }
-            );
+            )
+              .then(() => res.status(200).json({ message: "Dislike enlevé" }))
+              .catch((error) => res.status(400).json(error));
           } else if (post.usersLiked.includes(req.auth.userId)) {
             Post.updateOne(
               { _id: req.params.id },
@@ -165,11 +199,19 @@ exports.likePost = (req, res, next) => {
                 $pull: { usersLiked: req.auth.userId },
                 $inc: { likes: -1 },
               }
-            );
+            )
+              .then(() => res.status(200).json({ message: "Like enlevé" }))
+              .catch((error) => res.status(400).json(error));
             User.updateOne(
               { _id: req.auth.userId },
               { $pull: { postLiked: Post._id } }
-            );
+            )
+              .then(() =>
+                res
+                  .status(200)
+                  .json({ message: "Informations utilisateur mises à jour" })
+              )
+              .catch((error) => res.status(400).json(error));
           }
           break;
       }

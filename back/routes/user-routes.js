@@ -4,7 +4,7 @@ const password = require("../middleware/password-validator");
 const multer = require("../middleware/multer-config");
 const auth = require("../middleware/auth");
 
-const userCtrl = require("../controllers/user");
+const userCtrl = require("../controllers/user-control");
 
 // Authentification
 
