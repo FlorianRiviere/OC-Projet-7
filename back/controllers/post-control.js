@@ -7,6 +7,16 @@ const User = require("../models/user-model");
 
 exports.createPost = (req, res, next) => {
   if (req.file) {
+    if (req.file.size > 512000) {
+      return res.status(400).json({ message: "Image trop grande" });
+    }
+    if (
+      req.file.mimetype !== "image/jpg" &&
+      req.file.mimetype !== "image/jpeg" &&
+      req.file.mimetype !== "image/png"
+    ) {
+      return res.status(400).json({ message: "Mauvais format d'image" });
+    }
     const post = new Post({
       author: req.auth.userId,
       content: req.body.content,
@@ -70,6 +80,16 @@ exports.modifyPost = (req, res, next) => {
             .then(() => res.status(200).json({ message: "Post modifié !" }))
             .catch((error) => res.status(400).json(error));
         } else {
+          if (req.file.size > 512000) {
+            return res.status(400).json({ message: "Image trop grande" });
+          }
+          if (
+            req.file.mimetype !== "image/jpg" &&
+            req.file.mimetype !== "image/jpeg" &&
+            req.file.mimetype !== "image/png"
+          ) {
+            return res.status(400).json({ message: "Mauvais format d'image" });
+          }
           const filename = post.picture.split("/images/posts/")[1];
           fs.unlink(`images/posts/${filename}`, () => {
             Post.updateOne(

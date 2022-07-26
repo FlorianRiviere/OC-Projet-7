@@ -118,6 +118,16 @@ exports.updateUser = (req, res, next) => {
           )
           .catch((error) => res.status(400).json(error));
       } else {
+        if (req.file.size > 512000) {
+          return res.status(400).json({ message: "Image trop grande" });
+        }
+        if (
+          req.file.mimetype !== "image/jpg" &&
+          req.file.mimetype !== "image/jpeg" &&
+          req.file.mimetype !== "image/png"
+        ) {
+          return res.status(400).json({ message: "Mauvais format d'image" });
+        }
         const filename = user.picture.split("/images/users/")[1];
         fs.unlink(`images/users/${filename}`, () => {
           User.updateOne(
