@@ -13,9 +13,9 @@ exports.createComment = (req, res, next) => {
     )
     .then(() => {
       const comment = new Comment({
+        postId: postData.id,
         author: req.auth.userId,
         content: req.body.content,
-        postId: postData._id,
       });
 
       comment

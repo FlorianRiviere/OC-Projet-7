@@ -10,4 +10,6 @@ router.get("/:id", commentCtrl.getOneComment);
 router.put("/:id", commentCtrl.modifyComment);
 router.delete("/:id", commentCtrl.deleteComment);
 
+router.post("/:id/like", commentCtrl.likeComment);
+
 module.exports = router;

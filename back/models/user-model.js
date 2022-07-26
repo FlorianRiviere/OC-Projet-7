@@ -23,8 +23,6 @@ const userSchema = mongoose.Schema(
     followers: { type: [String] },
     following: { type: [String] },
     postliked: { type: [String] },
-    comments: { type: [String] },
-    commentsliked: { type: [String] },
   },
   { timestamps: true }
 );
