@@ -1,11 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 require("dotenv").config({ path: "config/.env" });
 
 const userRoutes = require("./routes/user-routes");
 const postRoutes = require("./routes/post-routes");
 const commentRoutes = require("./routes/comment-routes");
+const { checkUser, requireAuth } = require("./middleware/auth.middleware");
 
 const app = express();
 
@@ -21,6 +23,8 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -32,6 +36,11 @@ app.use((req, res, next) => {
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
   next();
+});
+
+app.get("*", checkUser);
+app.get("/jwtid", requireAuth, (req, res) => {
+  res.status(200).json(res.locals.user);
 });
 
 app.use("/api/users", userRoutes);

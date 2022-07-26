@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const { signUpError } = require("../utils/errors-utils");
 
 const User = require("../models/user-model");
 
@@ -25,12 +26,23 @@ exports.signup = (req, res, next) => {
         .then(() =>
           res.status(201).json({ message: "Compte utilisateur créé !" })
         )
-        .catch((error) => res.status(400).json({ error }));
+        .catch((err) => {
+          const error = signUpError(err);
+          res.status(400).json({ error });
+        });
     })
+
     .catch((error) => res.status(500).json({ error }));
 };
 
 // Connexion de l'utilisateur
+
+const maxAge = 7 * 24 * 60 * 60 * 1000;
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.TOKEN_SECRET, {
+    expiresIn: maxAge,
+  });
+};
 
 exports.login = (req, res, next) => {
   User.findOne({
@@ -44,23 +56,21 @@ exports.login = (req, res, next) => {
         .compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
-            return res.status(401).json({ error: "Mauvais mot de passe !" });
+            return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
-          res.status(200).json({
-            userId: user_id,
-            token: jwt.sign(
-              { userId: user._id },
-              "RANDOM_TOKEN_SECRET",
-              {
-                expiresIn: "24h",
-              },
-              res.status(201).json({ message: "Utilisateur connecté" })
-            ),
-          });
+          const token = createToken(user._id);
+          res.cookie("jwt", token, { httpOnly: true }, maxAge);
+          res.status(200).json({ user: user._id });
         })
         .catch((error) => res.status(501).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
+};
+
+exports.logout = (req, res, next) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/");
+  res.status(200).json({ message: "Utilisateur déconnecté !" });
 };
 
 /************************************* Users *************************************/
