@@ -80,7 +80,19 @@ exports.logout = (req, res, next) => {
 exports.getAllUsers = (req, res, next) => {
   User.find()
     .select("-password")
-    .then((users) => res.status(200).json(users))
+    .then((users) => {
+      const numberOfUsers = sauces.length;
+      for (let i = 0; i < numberOfUsers; i++) {
+        const filename = users[i].picture.split("/images/")[1];
+        if (fs.existsSync(`images/${filename}`)) {
+        } else {
+          users[i].picture = `${req.protocol}://${req.get(
+            "host"
+          )}/public/default-image.jpg`;
+        }
+      }
+      res.status(200).json(users);
+    })
     .catch((error) => res.status(401).json(error));
 };
 
@@ -89,7 +101,16 @@ exports.getAllUsers = (req, res, next) => {
 exports.getUser = (req, res, next) => {
   User.findOne({ _id: req.params.id })
     .select("-password")
-    .then((user) => res.status(200).json(user))
+    .then((user) => {
+      const filename = user.picture.split("/images/")[1];
+      if (fs.existsSync(`images/${filename}`)) {
+      } else {
+        user.picture = `${req.protocol}://${req.get(
+          "host"
+        )}/public/default-image.jpg`;
+      }
+      res.status(200).json(user);
+    })
     .catch((error) => res.status(401).json(error));
 };
 
