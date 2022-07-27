@@ -24,7 +24,7 @@ exports.createPost = (req, res, next) => {
       mimeType = ".jpg";
     }
     if (req.file.mimetype == "image/jpeg") {
-      mimeType = ".jpg";
+      mimeType = ".jpeg";
     }
     if (req.file.mimetype == "image/png") {
       mimeType = ".png";
@@ -108,7 +108,7 @@ exports.modifyPost = (req, res, next) => {
             mimeType = ".jpg";
           }
           if (req.file.mimetype == "image/jpeg") {
-            mimeType = ".jpg";
+            mimeType = ".jpeg";
           }
           if (req.file.mimetype == "image/png") {
             mimeType = ".png";

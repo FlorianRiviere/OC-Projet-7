@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const cors = require("cors");
 require("dotenv").config({ path: "config/.env" });
 
 const userRoutes = require("./routes/user-routes");
@@ -22,8 +24,8 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,6 +39,13 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use(
+  cors({
+    origin: [`http://localhost:3000`, `http://localhost:5000`],
+    credentials: "true",
+  })
+);
 
 app.get("*", checkUser);
 app.get("/jwtid", requireAuth, (req, res) => {

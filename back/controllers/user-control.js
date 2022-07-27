@@ -84,8 +84,8 @@ exports.getAllUsers = (req, res, next) => {
     .then((users) => {
       const numberOfUsers = users.length;
       for (let i = 0; i < numberOfUsers; i++) {
-        const filename = users[i].picture.split("/images/")[1];
-        if (fs.existsSync(`images/${filename}`)) {
+        const filename = users[i].picture.split("/images/users/")[1];
+        if (fs.existsSync(`images/users/${filename}`)) {
         } else {
           users[i].picture = `${req.protocol}://${req.get(
             "host"
@@ -103,8 +103,8 @@ exports.getUser = (req, res, next) => {
   User.findOne({ _id: req.params.id })
     .select("-password")
     .then((user) => {
-      const filename = user.picture.split("/images/")[1];
-      if (fs.existsSync(`images/${filename}`)) {
+      const filename = user.picture.split("/images/users")[1];
+      if (fs.existsSync(`images/users/${filename}`)) {
       } else {
         user.picture = `${req.protocol}://${req.get(
           "host"
