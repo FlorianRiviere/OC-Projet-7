@@ -151,13 +151,10 @@ exports.deletePost = (req, res, next) => {
   Post.findOne({ _id: req.params.id })
     .then((post) => {
       if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
-        Comment.findByIdAndDelete({ postId: req.params.id });
+        Comment.deleteMany({ postId: req.params.id });
         const filename = post.picture.split("/images/posts/")[1];
         fs.unlink(`images/posts/${filename}`, () => {
-          Post.deleteOne(
-            { _id: req.params.id },
-            { ...postObject, _id: req.params.id }
-          )
+          Post.deleteOne({ _id: req.params.id })
             .then(() => res.status(200).json({ message: "Post supprimé !" }))
             .catch((error) => res.status(400).json(error));
         });

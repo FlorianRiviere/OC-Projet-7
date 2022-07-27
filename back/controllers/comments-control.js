@@ -2,7 +2,7 @@ const Post = require("../models/post-model");
 const Comment = require("../models/comment-model");
 
 exports.createComment = (req, res, next) => {
-  Post.findOne({ _id: req.body.post._id })
+  Post.findOne({ _id: req.body.postId })
     .then((post) => {
       postData = {
         id: post._id,
@@ -27,7 +27,7 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.getAllComments = (req, res, next) => {
-  Comment.find({ postId: req.body.postId })
+  Comment.find()
     .then((comments) => res.status(201).json(comments))
     .catch((error) => res.status(400).json(error));
 };
