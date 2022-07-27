@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const password = require("../middleware/password-validator");
-const multer = require("../middleware/multer-config");
 const auth = require("../middleware/auth.middleware");
+const multer = require("multer");
+const upload = multer();
 
 const userCtrl = require("../controllers/user-control");
 
@@ -16,7 +17,7 @@ router.get("/logout", userCtrl.logout);
 
 router.get("/", auth.checkUser, userCtrl.getAllUsers);
 router.get("/:id", auth.checkUser, userCtrl.getUser);
-router.put("/:id", auth.checkUser, multer, userCtrl.updateUser);
+router.put("/:id", auth.checkUser, upload.single("file"), userCtrl.updateUser);
 router.delete("/:id", auth.checkUser, userCtrl.deleteUser);
 
 // Follow

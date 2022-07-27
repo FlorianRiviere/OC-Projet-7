@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const { signUpError } = require("../utils/errors-utils");
+const { promisify } = require("util");
+const pipeline = promisify(require("stream").pipeline);
 
 const User = require("../models/user-model");
 
@@ -69,7 +71,6 @@ exports.login = (req, res, next) => {
 
 exports.logout = (req, res, next) => {
   res.cookie("jwt", "", { maxAge: 1 });
-  res.redirect("/");
   res.status(200).json({ message: "Utilisateur déconnecté !" });
 };
 
@@ -117,49 +118,69 @@ exports.getUser = (req, res, next) => {
 // Mise à jour du compte utilisateur
 
 exports.updateUser = (req, res, next) => {
-  const userObject = req.file
-    ? {
-        ...JSON.parse(req.body.user),
-        picture: `${req.protocol}://${req.get("host")}/images/users/${
-          req.file.filename
-        }`,
-      }
-    : { ...req.body };
   User.findOne({ _id: req.params.id })
     .then((user) => {
       if (user._id != req.auth.id) {
         res.status(401).json({ message: "Non autorisé" });
-      } else if (userObject.picture == undefined) {
-        User.updateOne(
-          { _id: req.params.id },
-          { ...userObject, _id: req.params.id }
-        )
-          .then(() =>
-            res.status(200).json({ message: "Utilisateur modifié !" })
-          )
-          .catch((error) => res.status(400).json(error));
       } else {
-        if (req.file.size > 512000) {
-          return res.status(400).json({ message: "Image trop grande" });
-        }
-        if (
-          req.file.mimetype !== "image/jpg" &&
-          req.file.mimetype !== "image/jpeg" &&
-          req.file.mimetype !== "image/png"
-        ) {
-          return res.status(400).json({ message: "Mauvais format d'image" });
-        }
-        const filename = user.picture.split("/images/users/")[1];
-        fs.unlink(`images/users/${filename}`, () => {
+        if (!req.file) {
           User.updateOne(
             { _id: req.params.id },
-            { ...userObject, _id: req.params.id }
+            { ...req.body.user, _id: req.params.id }
           )
             .then(() =>
               res.status(200).json({ message: "Utilisateur modifié !" })
             )
             .catch((error) => res.status(400).json(error));
-        });
+        } else {
+          if (req.file.size > 9200000) {
+            return res.status(400).json({ message: "Image trop grande" });
+          }
+          if (
+            req.file.mimetype !== "image/jpg" &&
+            req.file.mimetype !== "image/jpeg" &&
+            req.file.mimetype !== "image/png"
+          ) {
+            return res.status(400).json({ message: "Mauvais format d'image" });
+          }
+          let mimeType;
+          if (req.file.mimetype == "image/jpg") {
+            mimeType = ".jpg";
+          }
+          if (req.file.mimetype == "image/jpeg") {
+            mimeType = ".jpg";
+          }
+          if (req.file.mimetype == "image/png") {
+            mimeType = ".png";
+          }
+
+          const fileName = "user" + user._id + mimeType;
+          console.log(fileName);
+
+          let writeStream = fs.createWriteStream(
+            `${__dirname}/../images/users/${fileName}`
+          );
+          writeStream.write(req.file.buffer);
+          writeStream.on("finish", () => {
+            console.log("Fichier mis à jour !");
+          });
+
+          writeStream.end();
+          User.updateOne(
+            { _id: req.params.id },
+            {
+              ...req.body.user,
+              picture: `${req.protocol}://${req.get(
+                "host"
+              )}/images/users/${fileName}`,
+              _id: req.params.id,
+            }
+          )
+            .then(() =>
+              res.status(200).json({ message: "Utilisateur modifié !" })
+            )
+            .catch((error) => res.status(400).json(error));
+        }
       }
     })
     .catch((error) => res.status(500).json(error));
