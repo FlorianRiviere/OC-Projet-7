@@ -81,7 +81,7 @@ exports.getAllUsers = (req, res, next) => {
   User.find()
     .select("-password")
     .then((users) => {
-      const numberOfUsers = sauces.length;
+      const numberOfUsers = users.length;
       for (let i = 0; i < numberOfUsers; i++) {
         const filename = users[i].picture.split("/images/")[1];
         if (fs.existsSync(`images/${filename}`)) {
@@ -127,7 +127,7 @@ exports.updateUser = (req, res, next) => {
     : { ...req.body };
   User.findOne({ _id: req.params.id })
     .then((user) => {
-      if (user._id != rq.auth.id) {
+      if (user._id != req.auth.id) {
         res.status(401).json({ message: "Non autorisé" });
       } else if (userObject.picture == undefined) {
         User.updateOne(

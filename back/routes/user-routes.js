@@ -14,13 +14,13 @@ router.get("/logout", userCtrl.logout);
 
 // Comptes utilisateurs
 
-router.get("/", userCtrl.getAllUsers);
-router.get("/:id", userCtrl.getUser);
-router.put("/:id", multer, userCtrl.updateUser);
-router.delete("/:id", userCtrl.deleteUser);
+router.get("/", auth.checkUser, userCtrl.getAllUsers);
+router.get("/:id", auth.checkUser, userCtrl.getUser);
+router.put("/:id", auth.checkUser, multer, userCtrl.updateUser);
+router.delete("/:id", auth.checkUser, userCtrl.deleteUser);
 
 // Follow
 
-router.post("/:id/follow", userCtrl.follow);
+router.post("/:id/follow", auth.checkUser, userCtrl.follow);
 
 module.exports = router;

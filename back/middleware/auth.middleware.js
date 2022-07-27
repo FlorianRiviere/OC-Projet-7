@@ -10,9 +10,9 @@ module.exports.checkUser = (req, res, next) => {
         res.cookie("jwt", "", { maxAge: 1 });
         next();
       } else {
-        let user = await User.findOne(decodedToken.id);
+        let user = await User.findOne({ _id: decodedToken.id });
         res.locals.user = user;
-        console.log(res.locals.user);
+        console.log(res.locals.user._id);
         next();
       }
     });
