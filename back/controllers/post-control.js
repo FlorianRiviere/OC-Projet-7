@@ -1,13 +1,15 @@
-const fs = require("fs");
-
 const Post = require("../models/post-model");
 const User = require("../models/user-model");
+const Comment = require("../models/comment-model");
+const fs = require("fs");
+const { promisify } = require("util");
+const pipeline = promisify(require("stream").pipeline);
 
 // Création du post
 
 exports.createPost = (req, res, next) => {
   if (req.file) {
-    if (req.file.size > 512000) {
+    if (req.file.size > 9200000) {
       return res.status(400).json({ message: "Image trop grande" });
     }
     if (
@@ -17,12 +19,33 @@ exports.createPost = (req, res, next) => {
     ) {
       return res.status(400).json({ message: "Mauvais format d'image" });
     }
+    let mimeType;
+    if (req.file.mimetype == "image/jpg") {
+      mimeType = ".jpg";
+    }
+    if (req.file.mimetype == "image/jpeg") {
+      mimeType = ".jpg";
+    }
+    if (req.file.mimetype == "image/png") {
+      mimeType = ".png";
+    }
+
+    const fileName = "user" + req.auth.userId + Date.now() + mimeType;
+
+    let writeStream = fs.createWriteStream(
+      `${__dirname}/../images/posts/${fileName}`
+    );
+    writeStream.write(req.file.buffer);
+    writeStream.on("finish", () => {
+      console.log("Fichier mis à jour !");
+    });
+
+    writeStream.end();
+
     const post = new Post({
       author: req.auth.userId,
       content: req.body.content,
-      picture: `${req.protocol}://${req.get("host")}/images/posts/${
-        req.file.filename
-      }`,
+      picture: `${req.protocol}://${req.get("host")}/images/posts/${fileName}`,
     });
     post
       .save()
@@ -59,28 +82,18 @@ exports.getOnePost = (req, res, next) => {
 // Modification d'un post
 
 exports.modifyPost = (req, res, next) => {
-  const postObject = req.file
-    ? {
-        ...JSON.parse(req.body.post),
-        picture: `${req.protocol}://${req.get("host")}/images/posts/${
-          req.file.filename
-        }`,
-      }
-    : { ...req.body };
-
-  delete postObject._userId;
   Post.findOne({ _id: req.params.id })
     .then((post) => {
       if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
-        if (postObject.picture == undefined) {
+        if (!req.file) {
           Post.updateOne(
             { _id: req.params.id },
-            { ...postObject, _id: req.params.id }
+            { ...req.body.post, _id: req.params.id }
           )
             .then(() => res.status(200).json({ message: "Post modifié !" }))
             .catch((error) => res.status(400).json(error));
         } else {
-          if (req.file.size > 512000) {
+          if (req.file.size > 9200000) {
             return res.status(400).json({ message: "Image trop grande" });
           }
           if (
@@ -90,15 +103,40 @@ exports.modifyPost = (req, res, next) => {
           ) {
             return res.status(400).json({ message: "Mauvais format d'image" });
           }
-          const filename = post.picture.split("/images/posts/")[1];
-          fs.unlink(`images/posts/${filename}`, () => {
-            Post.updateOne(
-              { _id: req.params.id },
-              { ...postObject, _id: req.params.id }
-            )
-              .then(() => res.status(200).json({ message: "Post modifié !" }))
-              .catch((error) => res.status(400).json(error));
+          let mimeType;
+          if (req.file.mimetype == "image/jpg") {
+            mimeType = ".jpg";
+          }
+          if (req.file.mimetype == "image/jpeg") {
+            mimeType = ".jpg";
+          }
+          if (req.file.mimetype == "image/png") {
+            mimeType = ".png";
+          }
+
+          const fileName = "post" + req.auth.userId + Date.now() + mimeType;
+
+          let writeStream = fs.createWriteStream(
+            `${__dirname}/../images/posts/${fileName}`
+          );
+          writeStream.write(req.file.buffer);
+          writeStream.on("finish", () => {
+            console.log("Fichier mis à jour !");
           });
+
+          writeStream.end();
+          Post.updateOne(
+            { _id: req.params.id },
+            {
+              ...req.body.user,
+              picture: `${req.protocol}://${req.get(
+                "host"
+              )}/images/posts/${fileName}`,
+              _id: req.params.id,
+            }
+          )
+            .then(() => res.status(200).json({ message: "Post modifié !" }))
+            .catch((error) => res.status(400).json(error));
         }
       } else {
         res.status(401).json({ message: "Non autorisé !" });
@@ -113,6 +151,7 @@ exports.deletePost = (req, res, next) => {
   Post.findOne({ _id: req.params.id })
     .then((post) => {
       if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
+        Comment.findByIdAndDelete({ postId: req.params.id });
         const filename = post.picture.split("/images/posts/")[1];
         fs.unlink(`images/posts/${filename}`, () => {
           Post.deleteOne(

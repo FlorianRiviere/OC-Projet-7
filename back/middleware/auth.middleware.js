@@ -12,7 +12,6 @@ module.exports.checkUser = (req, res, next) => {
       } else {
         let user = await User.findOne({ _id: decodedToken.id });
         res.locals.user = user;
-        console.log(res.locals.user._id);
         next();
       }
     });
