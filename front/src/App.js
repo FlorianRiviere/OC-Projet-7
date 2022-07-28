@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import logo from './logo.svg';
 import './App.css';
 
@@ -18,6 +19,15 @@ function App() {
           Learn React
         </a>
       </header>
+=======
+import React from "react";
+import Routes from "./components/routes";
+
+function App() {
+  return (
+    <div>
+      <Routes />
+>>>>>>> 781e79e2228a58c94b66037be72be6847537495c
     </div>
   );
 }
