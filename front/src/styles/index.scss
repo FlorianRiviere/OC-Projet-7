@@ -1,2 +1,5 @@
-@import "./reset";
-@import "./global.scss"
+@import "./utils/reset";
+@import "./utils/global";
+@import "./utils/breakpoints";
+
+@import "./components/header"

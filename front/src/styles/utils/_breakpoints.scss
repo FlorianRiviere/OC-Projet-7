@@ -1,0 +1,27 @@
+$breakpoints:(
+    land-mob:640px,
+    port-tab:768px,
+    land-tab:1024px,
+    desktop:1280px
+);
+
+@mixin mobile-landscape {
+    @media screen and (min-width: map-get($breakpoints,land-mob)){
+        @content;
+    }
+}
+@mixin tablet-portrait {
+    @media screen and (min-width: map-get($breakpoints,port-tab)){
+        @content;
+    }
+}
+@mixin tablet-landscape {
+    @media screen and (min-width: map-get($breakpoints,land-tab)){
+        @content;
+    }
+}
+@mixin desktop-only {
+    @media screen and (min-width: map-get($breakpoints,desktop)){
+        @content;
+    }
+}
