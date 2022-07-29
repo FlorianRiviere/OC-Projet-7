@@ -6,8 +6,11 @@ $tertiary-color : #4E5166;
 
 // Police
 
-body{
+body {
     font-family: "lato";
     font-size: 1em;
-    display: flex;
+}
+
+div {
+    width: 100%;
 }

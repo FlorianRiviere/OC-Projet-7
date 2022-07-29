@@ -10,7 +10,7 @@ import Profil from "../../pages/Profil";
 
 function index() {
   return (
-    <div>
+    <>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -18,7 +18,7 @@ function index() {
           <Route path="/" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>
-    </div>
+    </>
   );
 }
 
