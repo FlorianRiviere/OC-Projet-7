@@ -12,7 +12,7 @@ function LoginForm() {
 
     axios({
       method: "post",
-      url: `${process.env.REACT_APP_API_URL}api/user/login`,
+      url: `${process.env.REACT_APP_API_URL}api/users/login`,
       withCredentials: true,
       data: {
         email,
@@ -34,7 +34,7 @@ function LoginForm() {
     <div className="logForm">
       <h1>Connexion</h1>
       <form action="" onSubmit={handleLogin} id="log-in-form">
-        <section>
+        <div className="input-bloc">
           <label htmlFor="email">Email</label>
           <input
             type="text"
@@ -43,11 +43,11 @@ function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
-        </section>
+        </div>
         <div className="email error"></div>
         <br />
-        <section>
-          <label htmlFor="password">Password</label>
+        <div className="input-bloc">
+          <label htmlFor="password">Mot de passe</label>
           <input
             type="password"
             name="password"
@@ -55,10 +55,10 @@ function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-        </section>
+        </div>
         <div className="password error"></div>
         <br />
-        <div className="btn-form">
+        <div className="btn-bloc">
           <input className="btn" type="submit" value="Se connecter" />
         </div>
       </form>

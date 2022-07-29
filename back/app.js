@@ -29,6 +29,7 @@ app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -49,7 +50,7 @@ app.use(
 
 app.get("*", checkUser);
 app.get("/jwtid", requireAuth, (req, res) => {
-  res.status(200).json(res.locals.user);
+  res.status(200).json("res.locals.user");
 });
 
 app.use("/api/users", userRoutes);
