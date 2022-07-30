@@ -49,9 +49,9 @@ function SignupForm() {
         "Les mots de passe ne sont pas identiques";
     } else {
       axios({
-        methos: "post",
+        method: "post",
         url: `${process.env.REACT_APP_API_URL}api/users/signup`,
-        date: {
+        data: {
           lastName,
           firstName,
           department,

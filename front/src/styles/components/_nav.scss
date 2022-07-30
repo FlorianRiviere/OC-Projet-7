@@ -1,0 +1,29 @@
+nav{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+
+    a{
+        width: 45px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 10px 10px 10px;
+        
+    }
+    & :hover{
+        background-color: $secondary-color;
+    }
+}
+
+@include tablet-landscape{
+    nav{
+        height: 300px;
+        padding: 0 10px 0 10px;
+        flex-direction: column;
+    }
+}

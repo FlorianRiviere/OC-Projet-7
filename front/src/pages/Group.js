@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { UidContext } from "../components/AppContext";
+import { Route, Navigate } from "react-router-dom";
 import Header from "../components/Header";
-import Log from "../components/Log";
 import Navbar from "../components/Navbar";
 
-function Home() {
+function Group() {
   const uid = useContext(UidContext);
+
   return (
     <>
       <Header />
@@ -13,18 +14,14 @@ function Home() {
         <>
           <div className="main-page">
             <Navbar />
-            <main>
-              <div>Bienvenue !</div>
-            </main>
+            <div>Group !</div>
           </div>
         </>
       ) : (
-        <section className="log-container">
-          <Log />
-        </section>
+        <Route path="/" element={<Navigate replace to="/" />} />
       )}
     </>
   );
 }
 
-export default Home;
+export default Group;

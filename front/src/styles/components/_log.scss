@@ -1,16 +1,3 @@
-.home-page{
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-@include tablet-portrait{
-    .home-page{
-        margin-top: 50px;
-    }
-}
-
 // Log
 
 .log-container{

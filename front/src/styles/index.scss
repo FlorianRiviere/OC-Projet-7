@@ -1,6 +1,10 @@
 @import "./utils/reset";
-@import "./utils/global";
 @import "./utils/breakpoints";
+@import "./utils/colors";
+
+@import "./pages/global";
+@import "./pages/home";
 
 @import "./components/header";
-@import "./components/home";
+@import "./components/log";
+@import "./components/nav";

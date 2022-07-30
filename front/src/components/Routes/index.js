@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Home from "../../pages/Home";
 import Profil from "../../pages/Profil";
+import Group from "../../pages/Group";
 
 function index() {
   return (
@@ -15,6 +16,7 @@ function index() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profil" element={<Profil />} />
+          <Route path="/group" element={<Group />} />
           <Route path="/" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>
