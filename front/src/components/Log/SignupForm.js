@@ -11,7 +11,7 @@ function SignupForm() {
 
   const options = [
     {
-      label: "Sélectionnez votre secteur !",
+      label: "Sélectionnez votre service",
     },
     {
       label: "Achat",
@@ -64,6 +64,7 @@ function SignupForm() {
             emailError.innerHTML = res.data.errors.email;
             passwordError.innerHTML = res.data.errors.password;
           }
+          alert("Enregistrement terminé, vous pouvez vous connecter");
         })
         .catch((err) => console.log(err));
     }
@@ -148,7 +149,7 @@ function SignupForm() {
         <div className="confirm-password error"></div>
         <br />
         <div className="btn-bloc">
-          <input className="btn" type="submit" value="Se connecter" />
+          <input className="btn" type="submit" value="S'inscrire" />
         </div>
       </form>
     </div>

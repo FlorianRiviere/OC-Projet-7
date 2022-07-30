@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UidContext } from "../components/AppContext";
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
@@ -18,7 +18,7 @@ function Group() {
           </div>
         </>
       ) : (
-        <Route path="/" element={<Navigate replace to="/" />} />
+        <Navigate to="/" />
       )}
     </>
   );

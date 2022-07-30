@@ -19,9 +19,11 @@ function Home() {
           </div>
         </>
       ) : (
-        <section className="log-container">
-          <Log />
-        </section>
+        <div className="log">
+          <section className="log-container">
+            <Log />
+          </section>
+        </div>
       )}
     </>
   );
