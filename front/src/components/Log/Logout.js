@@ -25,7 +25,11 @@ function Logout() {
 
   return (
     <div className="navlink" onClick={logout}>
-      <img src={Out} alt="Icone d'une flèche montrant une sortie " />
+      <img
+        src={Out}
+        alt="Icone d'une flèche montrant une sortie "
+        title="Se déconnecter"
+      />
     </div>
   );
 }

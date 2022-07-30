@@ -13,13 +13,18 @@ function Navbar() {
           <img
             src={HouseUser}
             alt="Icone d'une maison avec une personne dedans"
+            title="Profil"
           />
         </NavLink>
         <NavLink className="navlink" exact to="/">
-          <img src={House} alt="Icone d'une maison" />
+          <img src={House} alt="Icone d'une maison" title="Page d'accueil" />
         </NavLink>
         <NavLink className="navlink" exact to="/group">
-          <img src={Group} alt="Icone d'un groupe de personnes " />
+          <img
+            src={Group}
+            alt="Icone d'un groupe de personnes"
+            title="Votre service"
+          />
         </NavLink>
         <Logout />
       </nav>
