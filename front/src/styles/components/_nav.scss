@@ -1,6 +1,7 @@
 nav{
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     display: flex;
@@ -14,7 +15,6 @@ nav{
         align-items: center;
         border-radius: 10px 10px 10px 10px;
         cursor: pointer;
-        
     }
     & :hover{
         background-color: $secondary-color;
