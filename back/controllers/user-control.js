@@ -84,12 +84,12 @@ exports.getAllUsers = (req, res, next) => {
     .then((users) => {
       const numberOfUsers = users.length;
       for (let i = 0; i < numberOfUsers; i++) {
-        const filename = users[i].picture.split("/images/users/")[1];
+        const filename = users[i].picture.split("./images/users/")[1];
         if (fs.existsSync(`images/users/${filename}`)) {
         } else {
           users[i].picture = `${req.protocol}://${req.get(
             "host"
-          )}/public/default-image.jpg`;
+          )}/public/default-image.png`;
         }
       }
       res.status(200).json(users);
@@ -103,12 +103,12 @@ exports.getUser = (req, res, next) => {
   User.findOne({ _id: req.params.id })
     .select("-password")
     .then((user) => {
-      const filename = user.picture.split("/images/users")[1];
+      const filename = user.picture.split("./images/users")[1];
       if (fs.existsSync(`images/users/${filename}`)) {
       } else {
         user.picture = `${req.protocol}://${req.get(
           "host"
-        )}/public/default-image.jpg`;
+        )}/public/default-image.png`;
       }
       res.status(200).json(user);
     })
@@ -158,7 +158,7 @@ exports.updateUser = (req, res, next) => {
           console.log(fileName);
 
           let writeStream = fs.createWriteStream(
-            `${__dirname}/../images/users/${fileName}`
+            `${__dirname}images/users/${fileName}`
           );
           writeStream.write(req.file.buffer);
           writeStream.on("finish", () => {
@@ -194,7 +194,7 @@ exports.deleteUser = (req, res, next) => {
       if (user._id != req.auth.userId) {
         res.status(401).json({ message: "non autorisé !" });
       } else {
-        const filename = user.picture.split("/images/users/")[1];
+        const filename = user.picture.split("./images/users/")[1];
         fs.unlink(`images/users/${filename}`, () => {
           User.deleteOne({ _id: req.params.id })
             .then(() =>

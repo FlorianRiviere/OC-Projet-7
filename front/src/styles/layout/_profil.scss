@@ -1,0 +1,133 @@
+.profil{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .image{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 1% 1% 1% 1%;
+        background-color: $secondary-color;
+        border-radius: 10px 10px 10px 10px;
+
+        h2{
+            width: 100%;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+        .img-bloc{
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .informations{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 1% 1% 1% 1%;
+        border-radius: 10px 10px 10px 10px;
+        background-color: $secondary-color;
+
+        
+        h2{
+            width: 100%;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        ul{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            
+            .info-label{
+                width: 30%;
+                text-align: end;
+            }
+            .info{
+                width: 40%;
+                min-width: 180px;
+                max-width: 232px;
+            }
+
+            @include mobile-landscape{
+                .info-label{
+                    width: 40%;
+                }
+            }
+        }
+    }
+
+    .biography{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 1% 1% 1% 1%;
+        border-radius: 10px 10px 10px 10px;
+        background-color: $secondary-color;
+
+        
+        h2{
+            width: 100%;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+    }
+
+    .user-posts{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 1% 1% 1% 1%;
+        border-radius: 10px 10px 10px 10px;
+        margin-top: 50px;
+
+        h2{
+            width: 100%;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+    }
+
+
+    @include tablet-portrait{
+        .image{
+            width: 23%;
+            height: 250px;
+        }
+
+        .informations{
+            width: 75%;
+            height: 250px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            h2{
+                margin-left: 5%;
+            }
+
+            ul{
+                .info-label{
+                    width: 25%;
+                }
+                .info{
+                    width:70%;
+                    max-width: none;
+                }
+            }
+        }
+    }
+}
+
+@include tablet-portrait{
+    .profil{
+        justify-content: space-between;
+    }
+}

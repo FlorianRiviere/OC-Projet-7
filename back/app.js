@@ -38,26 +38,27 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
   next();
 });
 
 app.use(
   cors({
-    origin: [`http://localhost:3000`, `http://localhost:5000`],
-    credentials: "true",
+    origin: true,
+    credentials: true,
   })
 );
 
 app.get("*", checkUser);
 app.get("/jwtid", requireAuth, (req, res) => {
-  res.status(200).json("res.locals.user");
+  res.status(200).json(res.locals.user);
 });
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 
+app.get("/public");
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use("/public", express.static(path.join(__dirname, "public")));
 
 module.exports = app;

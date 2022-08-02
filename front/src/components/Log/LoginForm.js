@@ -35,7 +35,7 @@ function LoginForm() {
       <h1>Connexion</h1>
       <form action="" onSubmit={handleLogin} id="log-in-form">
         <div className="input-bloc">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email :</label>
           <input
             type="text"
             name="email"
@@ -47,7 +47,7 @@ function LoginForm() {
         <div className="email error"></div>
         <br />
         <div className="input-bloc">
-          <label htmlFor="password">Mot de passe</label>
+          <label htmlFor="password">Mot de passe :</label>
           <input
             type="password"
             name="password"
@@ -58,8 +58,8 @@ function LoginForm() {
         </div>
         <div className="password error"></div>
         <br />
-        <div className="btn-bloc">
-          <input className="btn" type="submit" value="Se connecter" />
+        <div className="log-btn-bloc">
+          <input className="log-btn" type="submit" value="Se connecter" />
         </div>
       </form>
     </div>

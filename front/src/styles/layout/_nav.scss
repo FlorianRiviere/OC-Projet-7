@@ -1,12 +1,15 @@
 nav{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 10px;
+    padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     display: flex;
     justify-content: space-around;
+    border-bottom: solid 2px $primary-color;
 
+    .logout{
+        background-color: white;
+        border: none;
+    }
     .navlink{
         width: 45px;
         height: 45px;
@@ -19,12 +22,17 @@ nav{
     & :hover{
         background-color: $secondary-color;
     }
+
+    position: sticky;
+    top: 70px;
+    background-color: white;
 }
 
-@include tablet-landscape{
+@include tablet-portrait{
     nav{
-        height: 300px;
+        height: 250px;
         padding: 0 10px 0 10px;
         flex-direction: column;
+        border-bottom: none;
     }
 }

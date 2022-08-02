@@ -33,7 +33,7 @@ exports.createPost = (req, res, next) => {
     const fileName = "user" + req.auth.userId + Date.now() + mimeType;
 
     let writeStream = fs.createWriteStream(
-      `${__dirname}/../images/posts/${fileName}`
+      `${__dirname}images/posts/${fileName}`
     );
     writeStream.write(req.file.buffer);
     writeStream.on("finish", () => {
@@ -117,7 +117,7 @@ exports.modifyPost = (req, res, next) => {
           const fileName = "post" + req.auth.userId + Date.now() + mimeType;
 
           let writeStream = fs.createWriteStream(
-            `${__dirname}/../images/posts/${fileName}`
+            `${__dirname}images/posts/${fileName}`
           );
           writeStream.write(req.file.buffer);
           writeStream.on("finish", () => {
@@ -152,7 +152,7 @@ exports.deletePost = (req, res, next) => {
     .then((post) => {
       if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
         Comment.deleteMany({ postId: req.params.id });
-        const filename = post.picture.split("/images/posts/")[1];
+        const filename = post.picture.split("./images/posts/")[1];
         fs.unlink(`images/posts/${filename}`, () => {
           Post.deleteOne({ _id: req.params.id })
             .then(() => res.status(200).json({ message: "Post supprimé !" }))

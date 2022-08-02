@@ -1,0 +1,41 @@
+.update-image{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.update-profil{
+    margin-top: 20px;
+    background-color: $secondary-color;
+    padding: 1% 1% 1% 1%;
+    border-radius: 10px 10px 10px 10px;
+    max-width: 650px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    h1{
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .update-informations{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        label{
+            width: 45%;
+            text-align: end;
+        }
+        input, select{
+            width:50%;
+            height: 20px;
+            min-width: 180px;
+            max-width: 232px;
+            margin-left: 10px;
+        }    
+    }
+}

@@ -3,8 +3,11 @@
 @import "./utils/colors";
 
 @import "./pages/global";
-@import "./pages/home";
 
-@import "./components/header";
-@import "./components/log";
-@import "./components/nav";
+@import "./components/button";
+
+@import "./layout/header";
+@import "./layout/log";
+@import "./layout/nav";
+@import "./layout/profil";
+@import "./layout/update-profil";

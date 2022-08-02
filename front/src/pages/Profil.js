@@ -3,6 +3,7 @@ import { UidContext } from "../components/AppContext";
 import { Navigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
+import UserProfil from "../components/Profil/userProfil";
 
 function Profil() {
   const uid = useContext(UidContext);
@@ -14,7 +15,7 @@ function Profil() {
         <>
           <div className="main-page">
             <Navbar />
-            <div>Profil !</div>
+            <UserProfil />
           </div>
         </>
       ) : (

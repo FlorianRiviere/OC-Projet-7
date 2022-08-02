@@ -9,17 +9,17 @@ function Navbar() {
   return (
     <>
       <nav>
-        <NavLink className="navlink" exact to="/profil">
+        <NavLink className="navlink" to="/profil">
           <img
             src={HouseUser}
             alt="Icone d'une maison avec une personne dedans"
             title="Profil"
           />
         </NavLink>
-        <NavLink className="navlink" exact to="/">
+        <NavLink className="navlink" to="/">
           <img src={House} alt="Icone d'une maison" title="Page d'accueil" />
         </NavLink>
-        <NavLink className="navlink" exact to="/group">
+        <NavLink className="navlink" to="/group">
           <img
             src={Group}
             alt="Icone d'un groupe de personnes"

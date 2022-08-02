@@ -65,6 +65,7 @@ function SignupForm() {
             passwordError.innerHTML = res.data.errors.password;
           }
           alert("Enregistrement terminé, vous pouvez vous connecter");
+          window.location.reload(true);
         })
         .catch((err) => console.log(err));
     }
@@ -75,7 +76,7 @@ function SignupForm() {
       <h1>Inscription</h1>
       <form action="" onSubmit={handleRegister} id="sign-up-form">
         <div className="input-bloc">
-          <label htmlFor="lastName">Nom</label>
+          <label htmlFor="lastName">Nom :</label>
           <input
             type="text"
             name="lastName"
@@ -86,7 +87,7 @@ function SignupForm() {
         </div>
         <br />
         <div className="input-bloc">
-          <label htmlFor="firstName">Prénom</label>
+          <label htmlFor="firstName">Prénom :</label>
           <input
             type="text"
             name="firstName"
@@ -97,7 +98,7 @@ function SignupForm() {
         </div>
         <br />
         <div className="input-bloc">
-          <label htmlFor="department">Service</label>
+          <label htmlFor="department">Service :</label>
           <select
             name="department"
             id="department"
@@ -113,7 +114,7 @@ function SignupForm() {
         </div>
         <br />
         <div className="input-bloc">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email :</label>
           <input
             type="text"
             name="email"
@@ -125,7 +126,7 @@ function SignupForm() {
         <div className="email error"></div>
         <br />
         <div className="input-bloc">
-          <label htmlFor="password">Mot de passe</label>
+          <label htmlFor="password">Mot de passe :</label>
           <input
             type="password"
             name="password"
@@ -137,7 +138,7 @@ function SignupForm() {
         <div className="password error"></div>
         <br />
         <div className="input-bloc">
-          <label htmlFor="conf-password">Confirmer mot de passe</label>
+          <label htmlFor="conf-password">Confirmer mot de passe :</label>
           <input
             type="password"
             name="password"
@@ -148,8 +149,8 @@ function SignupForm() {
         </div>
         <div className="confirm-password error"></div>
         <br />
-        <div className="btn-bloc">
-          <input className="btn" type="submit" value="S'inscrire" />
+        <div className="log-btn-bloc">
+          <input className="log-btn" type="submit" value="S'inscrire" />
         </div>
       </form>
     </div>
