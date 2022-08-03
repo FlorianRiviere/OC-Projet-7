@@ -1,40 +1,38 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../feature/userSlice";
 import { UidContext } from "../../components/AppContext";
 
 const UserProfil = () => {
-  const uid = useContext(UidContext);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
+  const uid = useContext(UidContext);
 
-  // const dispatch = useDispatch();
-  // const userData = useSelector((state) => state.user.user);
-  // const getUser = async () => {
-  //   return await axios({
-  //     method: "get",
-  //     url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
-  //     withCredentials: true,
-  //   })
-  //     .then((res) => {
-  //       dispatch(getUserData(res.data));
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-  // getUser();
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.user);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+      withCredentials: true,
+    })
+      .then((res) => dispatch(getUserData(res.data)))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
       <main>
         {isUpdating === false && (
           <>
-            <h1 className="main-title">Profil de</h1>
+            <h1 className="main-title">Profil de {userData.firstName}</h1>
             <div className="profil">
               <section className="image">
                 <h2>Image de profil</h2>
                 <div className="img-bloc">
-                  <img src="" alt="de profil"></img>
+                  <img src={userData.picture} alt="de profil"></img>
                 </div>
                 <div className="update-image">
                   {isUpdatingImage === false && (
@@ -76,13 +74,13 @@ const UserProfil = () => {
                 <div className="info-bloc">
                   <ul>
                     <li className="info-label">Prénom :</li>
-                    <li className="info">Florian</li>
+                    <li className="info">{userData.firstName}</li>
                     <li className="info-label">Nom :</li>
-                    <li className="info">Rivière</li>
+                    <li className="info">{userData.lastName}</li>
                     <li className="info-label">Email :</li>
-                    <li className="info">florian@gmail.com</li>
+                    <li className="info">{userData.email}</li>
                     <li className="info-label">Service :</li>
-                    <li className="info">Informatique</li>
+                    <li className="info">{userData.department}</li>
                   </ul>
                 </div>
               </section>
