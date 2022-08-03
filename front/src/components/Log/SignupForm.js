@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { options } from "../departments";
 
 function SignupForm() {
   const [lastName, setLastName] = useState("");
@@ -8,32 +9,6 @@ function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const options = [
-    {
-      label: "Sélectionnez votre service",
-    },
-    {
-      label: "Achat",
-      value: "achat",
-    },
-    {
-      label: "Après-vente",
-      value: "après-vente",
-    },
-    {
-      label: "Juridique",
-      value: "juridique",
-    },
-    {
-      label: "Comptabilité",
-      value: "comptabilité",
-    },
-    {
-      label: "Informatique",
-      value: "informatique",
-    },
-  ];
 
   const handleRegister = (e) => {
     e.preventDefault();

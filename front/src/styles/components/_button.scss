@@ -32,7 +32,7 @@
 
 .image-btn{
     width: 130px;
-    height: 30px;
+    height: 35px;
     border: none;
     border-radius: 20px 20px 20px 20px;
     font-weight: 600;
@@ -59,15 +59,22 @@
     margin-left: 10px;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+@include mobile-landscape{
+    .update-btn-bloc{
+        gap:50px
+    }
 }
 
 .update-btn{
     width: 50%;
     max-width: 176px;
-    height: 40px;
+    height: 35px;
     border: none;
     border-radius: 20px 20px 20px 20px;
-    font-size:medium;
     font-weight: 600;
     background-color:   #fff0f0;
     box-shadow: 1px 1px 10px #967b7b;
@@ -91,7 +98,7 @@
 
 .update-form-btn{
     width: 100px;
-    height: 30px;
+    height: 35px;
     border: none;
     border-radius: 20px 20px 20px 20px;
     font-weight: 600;
@@ -102,4 +109,37 @@
 .update-form-btn:active{
     background-color: $secondary-color;
     box-shadow: inset 1px 1px 5px #967b7b;
+}
+
+
+// Update biography
+
+.biography-btn-bloc{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.biography-btn{
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 20px 20px 20px 20px;
+    font-weight: 600;
+    background-color:   #fff0f0;
+    box-shadow: 1px 1px 10px #967b7b;
+}
+
+.biography-btn:active{
+    background-color: $secondary-color;
+    box-shadow: inset 1px 1px 5px #967b7b;
+}
+
+.biography-form-btn-bloc{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
 }
