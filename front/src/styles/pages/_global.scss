@@ -8,6 +8,9 @@ body {
     font-size: 1em;
     color: $tertiary-color;
 }
+#root{
+    height: 100%;
+}
 
 div {
     width: 100%;
@@ -25,7 +28,6 @@ main{
     padding: 2% 2% 2% 2%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
