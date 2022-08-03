@@ -71,13 +71,13 @@
 
     @include tablet-portrait{
         .image{
-            width: 25%;
-            height: 300px;
+            width: 40%;
+            height: 320px;
         }
 
         .informations{
-            width: 73%;
-            height: 300px;
+            width: 58%;
+            height: 320px;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-between;

@@ -25,9 +25,9 @@
 .image-btn-bloc{
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 10px;
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 .image-btn{
@@ -45,11 +45,8 @@
     box-shadow: inset 1px 1px 5px #967b7b;
 }
 
-.choose-image{
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 120px
-}
+
+
 
 // Update profil
 
@@ -65,7 +62,7 @@
 
 @include mobile-landscape{
     .update-btn-bloc{
-        gap:50px
+        gap: 20px
     }
 }
 

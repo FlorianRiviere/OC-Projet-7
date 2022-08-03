@@ -101,6 +101,11 @@ const UserProfil = () => {
                     {isUpdatingImage && (
                       <>
                         <div className="image-btn-bloc">
+                          <input
+                            type="submit"
+                            className="image-btn"
+                            value="Valider"
+                          />
                           <button
                             className="image-btn"
                             onClick={() => setIsUpdatingImage(false)}
