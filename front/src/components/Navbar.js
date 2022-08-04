@@ -9,24 +9,26 @@ function Navbar() {
   return (
     <>
       <nav>
-        <NavLink className="navlink" to="/profil">
-          <img
-            src={HouseUser}
-            alt="Icone d'une maison avec une personne dedans"
-            title="Profil"
-          />
-        </NavLink>
-        <NavLink className="navlink" to="/">
-          <img src={House} alt="Icone d'une maison" title="Page d'accueil" />
-        </NavLink>
-        <NavLink className="navlink" to="/group">
-          <img
-            src={Group}
-            alt="Icone d'un groupe de personnes"
-            title="Votre service"
-          />
-        </NavLink>
-        <Logout />
+        <div className="navbar">
+          <NavLink className="navlink" to="/profil">
+            <img
+              src={HouseUser}
+              alt="Icone d'une maison avec une personne dedans"
+              title="Profil"
+            />
+          </NavLink>
+          <NavLink className="navlink" to="/">
+            <img src={House} alt="Icone d'une maison" title="Page d'accueil" />
+          </NavLink>
+          <NavLink className="navlink" to="/group">
+            <img
+              src={Group}
+              alt="Icone d'un groupe de personnes"
+              title="Votre service"
+            />
+          </NavLink>
+          <Logout />
+        </div>
       </nav>
     </>
   );

@@ -3,11 +3,12 @@
     height: 70px;
     padding-top: 20px;
     padding-bottom: 20px;
-    position:-webkit-sticky; 
-    position:sticky; 
+    position: -webkit-sticky; 
+    position: sticky; 
     top: 0;
     background-color: white;
-    
+    z-index: 2;
+    border-bottom: solid 2px $primary-color;
 
     header{
         width: 100%;
@@ -28,5 +29,6 @@
 @include tablet-portrait{
     .header{
         border-bottom: solid 2px $primary-color;
+        position: fixed;
     }
 }
