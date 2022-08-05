@@ -2,12 +2,15 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../feature/userSlice";
-import { updateUser } from "../../feature/userSlice";
+import { updateUserInformations } from "../../feature/userSlice";
 import { UidContext } from "../../components/AppContext";
 import { options } from "../../components/departments";
 
 const UserProfil = () => {
   const uid = useContext(UidContext);
+
+  const dispatch = useDispatch();
+  const [loadingUser, setLoadingUser] = useState(true);
 
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
   const [isUpdatingInformations, setIsUpdatingInformations] = useState(false);
@@ -19,36 +22,73 @@ const UserProfil = () => {
   const [department, setDepartment] = useState("");
   const [email, setEmail] = useState("");
   const [biography, setBiography] = useState("");
+  const [picture, setPicture] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const [loadUser, setLoadUser] = useState(true);
-  const dispatch = useDispatch();
-  const userData = useSelector((state) => state.user.user);
 
   // Récupérer utilisateur
 
   useEffect(() => {
-    if (loadUser) {
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          dispatch(getUserData(res.data));
-          setLoadUser(false);
+    if (loadingUser === true) {
+      const getUser = async () => {
+        await axios({
+          method: "get",
+          url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+          withCredentials: true,
         })
-        .catch((err) => console.log(err));
+          .then((res) => {
+            dispatch(getUserData(res.data));
+            setFirstName(res.data.firstName);
+            setLastName(res.data.lastName);
+            setDepartment(res.data.department);
+            setEmail(res.data.email);
+            setBiography(res.data.biography);
+            setLoadingUser(false);
+          })
+          .catch((err) => console.log(err));
+      };
+      getUser();
+    } else {
+      return;
     }
-  }, [dispatch, uid, loadUser]);
+  }, [dispatch, uid, loadingUser]);
 
-  // Gérer Modifications
+  const userData = useSelector((state) => state.user.user);
 
-  const handleImage = (e) => {};
+  // Modifications images
+
+  const handleImage = (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+
+    data.append("image", picture);
+
+    axios({
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+      withCredentials: true,
+
+      data: data,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(() => {
+        dispatch(updateUserInformations);
+        alert("Image modifiée");
+        setIsUpdatingImage(false);
+        // window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // Modifications infos
 
   const handleInformations = (e) => {
     e.preventDefault();
+    if (firstName === undefined) {
+      setFirstName(firstName.defaultValue);
+    }
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
@@ -60,19 +100,63 @@ const UserProfil = () => {
         department,
       },
     })
-      .then((res) => {
-        dispatch(getUserData(res.data));
-        alert("Informations modifié");
+      .then(() => {
+        dispatch(updateUserInformations);
+        alert("Informations modifiées");
         setIsUpdatingInformations(false);
+        // window.location.reload();
+      })
+      .catch((err) => console.log(department, err));
+  };
+
+  // Modifications MDP
+
+  const handlePassword = (e) => {
+    e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+      alert("Le nouveau mot de passe est différent de la confirmation");
+    } else if (password === newPassword) {
+      alert("Mots de passe identiques");
+    } else {
+      axios({
+        method: "put",
+        url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+        withCredentials: true,
+        data: {
+          password: newPassword,
+        },
+      })
+        .then(() => {
+          dispatch(updateUserInformations);
+          alert("Mot de passe modifié");
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  // Modifications bio
+
+  const handleBiography = (e) => {
+    e.preventDefault();
+    axios({
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+      withCredentials: true,
+      data: {
+        biography,
+      },
+    })
+      .then(() => {
+        dispatch(updateUserInformations);
+        alert("Biographie modifiée");
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
 
-  const handlePassword = (e) => {};
-
-  const handleBiography = (e) => {};
-
-  if (loadUser === false) {
+  if (loadingUser === false) {
     return (
       <>
         <main>
@@ -80,8 +164,6 @@ const UserProfil = () => {
             <>
               <h1 className="main-title">Profil de {userData.firstName}</h1>
               <div className="profil">
-                {/* Image */}
-
                 <section className="image">
                   <h2>Image de profil</h2>
                   <div className="img-bloc">
@@ -105,6 +187,7 @@ const UserProfil = () => {
                             type="submit"
                             className="image-btn"
                             value="Valider"
+                            onClick={handleImage}
                           />
                           <button
                             className="image-btn"
@@ -120,6 +203,7 @@ const UserProfil = () => {
                             id="file"
                             className="choose-image"
                             accept=".jpg, .jpeg, .png"
+                            onChange={(e) => setPicture(e.target.files[0])}
                           />
                         </form>
                       </>
@@ -128,7 +212,7 @@ const UserProfil = () => {
                 </section>
 
                 <section className="informations">
-                  <h2>Informations</h2>
+                  <h2>Informations personnelles</h2>
                   <div className="info-bloc">
                     <ul>
                       <li className="info-label">Prénom :</li>
@@ -184,7 +268,11 @@ const UserProfil = () => {
                           ></textarea>
                         </form>
                         <div className="biography-form-btn-bloc">
-                          <input className="biography-btn" type="submit" />
+                          <input
+                            className="biography-btn"
+                            type="submit"
+                            onClick={handleBiography}
+                          />
                           <button
                             className="biography-btn"
                             onClick={() => setIsUpdatingBiography(false)}
@@ -216,21 +304,19 @@ const UserProfil = () => {
             </>
           )}
 
-          {/* Modifier informations */}
-
           {isUpdatingInformations && (
             <>
               <div className="update-profil">
-                <h1>Modifier profil</h1>
-                <form>
+                <h1>Modifier informations personnelles</h1>
+                <form onSubmit={handleInformations}>
                   <div className="update-informations">
                     <label>Nom :</label>
                     <input
                       type="text"
                       name="lastName"
                       id="lastName"
+                      defaultValue={userData.lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      value={userData.lastName}
                     />
 
                     <label>Prénom :</label>
@@ -239,7 +325,7 @@ const UserProfil = () => {
                       name="firstName"
                       id="firstName"
                       onChange={(e) => setFirstName(e.target.value)}
-                      value={userData.firstName}
+                      defaultValue={userData.firstName}
                     />
 
                     <label>Email :</label>
@@ -248,7 +334,7 @@ const UserProfil = () => {
                       name="email"
                       id="email"
                       onChange={(e) => setEmail(e.target.value)}
-                      value={userData.email}
+                      defaultValue={userData.email}
                     />
 
                     <label>Service :</label>
@@ -266,11 +352,7 @@ const UserProfil = () => {
                     </select>
                   </div>
                   <div className="update-form-btn-bloc">
-                    <input
-                      className="update-form-btn"
-                      type="submit"
-                      onClick={handleInformations}
-                    />
+                    <input className="update-form-btn" type="submit" />
                     <button
                       className="update-form-btn"
                       onClick={() => setIsUpdatingInformations(false)}
@@ -287,22 +369,20 @@ const UserProfil = () => {
               <h1>Modifier mot de passe</h1>
               <form>
                 <div className="update-informations">
-                  <label>Mot de passe :</label>
+                  <label>Nouveau mot de passe :</label>
                   <input
                     type="password"
-                    name="password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    name="new-password"
+                    id="new-password"
+                    onChange={(e) => setnewPassword(e.target.value)}
                   />
 
                   <label>Confirmer mot de passe :</label>
                   <input
                     type="password"
-                    name="password"
-                    id="conf-password"
+                    name="confirm-password"
+                    id="confirm-password"
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    value={confirmPassword}
                   />
                 </div>
                 <div className="update-form-btn-bloc">

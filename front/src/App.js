@@ -7,19 +7,22 @@ function App() {
   const [uid, setUid] = useState(null);
 
   useEffect(() => {
-    const fetchToken = async () => {
-      await axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}jwtid`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          setUid(res.data._id);
-          console.log(res.data._id);
+    if (uid == null) {
+      const fetchToken = async () => {
+        axios({
+          method: "get",
+          url: `${process.env.REACT_APP_API_URL}jwtid`,
+          withCredentials: true,
         })
-        .catch((err) => console.log("No token", err));
-    };
-    fetchToken();
+          .then((res) => {
+            setUid(res.data._id);
+            console.log(res.data._id);
+          })
+          .catch((err) => console.log("No token", err));
+      };
+
+      fetchToken();
+    }
   }, [uid]);
 
   return (

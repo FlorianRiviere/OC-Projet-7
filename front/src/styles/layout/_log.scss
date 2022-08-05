@@ -1,81 +1,79 @@
-// Log
-.log{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
+.log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
 
-.log-container{
-    width:90%;
+  .log-container {
+    width: 90%;
     max-width: 650px;
     border-radius: 10px 10px 10px 10px;
 
-    ul{ 
-        width: 100%;
-        height: 50px;
-        border-radius: 10px 10px 10px 10px;
+    ul {
+      width: 100%;
+      height: 50px;
+      border-radius: 10px 10px 10px 10px;
+      display: flex;
+      justify-content: center;
+
+      li {
+        width: 50%;
+        height: 100%;
+        background-color: white;
         display: flex;
         justify-content: center;
-
-        li{
-            width: 50%;
-            height: 100%;
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        align-items: center;
+      }
     }
-    .active-btn{
-        font-size: 1.1em;
-        border-radius: 10px 10px 0 0;
-        background-color: $secondary-color;
+    .active-btn {
+      font-size: 1.1em;
+      border-radius: 10px 10px 0 0;
+      background-color: $secondary-color;
     }
 
-    .logForm{
-        width: 100%;
-        background-color: $secondary-color;
-        padding-bottom: 10px;
-        padding-top: 10px;
-        border-radius: 0 0 10px 10px;
+    .logForm {
+      width: 100%;
+      background-color: $secondary-color;
+      padding-bottom: 10px;
+      padding-top: 10px;
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      flex-direction: column;
+
+      form {
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
 
-        form{
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
+        .input-bloc {
+          padding-left: 2%;
+          padding-right: 2%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
-            .input-bloc{
-                padding-left: 2%;
-                padding-right: 2%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                label{
-                    width: 30%;
-                    min-width: 67px;
-                    text-align: end;
-                    margin-right: 20px;
-                }
-                input, select{
-                    width: 70%;
-                    min-width: 180px;
-                    max-width: 232px;
-                    max-height: 19.2px;
-                    border: none;
-                    border-radius: 10px 10px 10px 10px;
-                }
-            }
-
-            .error{
-                color: red;
-                font-weight: 600;
-            }
-
-
+          label {
+            width: 30%;
+            min-width: 67px;
+            text-align: end;
+            margin-right: 20px;
+          }
+          input,
+          select {
+            width: 70%;
+            min-width: 180px;
+            max-width: 232px;
+            max-height: 19.2px;
+            border: none;
+            border-radius: 10px 10px 10px 10px;
+          }
         }
+
+        .error {
+          color: red;
+          font-weight: 600;
+        }
+      }
     }
-}
+  }
 }

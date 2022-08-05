@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 
 function Home() {
   const uid = useContext(UidContext);
+
   return (
     <>
       <Header />
