@@ -23,7 +23,6 @@ const UserProfil = () => {
   const [email, setEmail] = useState("");
   const [biography, setBiography] = useState("");
   const [picture, setPicture] = useState("");
-  const [password, setPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -116,12 +115,10 @@ const UserProfil = () => {
 
     if (newPassword !== confirmPassword) {
       alert("Le nouveau mot de passe est différent de la confirmation");
-    } else if (password === newPassword) {
-      alert("Mots de passe identiques");
     } else {
       axios({
         method: "put",
-        url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+        url: `${process.env.REACT_APP_API_URL}api/users/${uid}/password`,
         withCredentials: true,
         data: {
           password: newPassword,

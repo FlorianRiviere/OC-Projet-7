@@ -16,7 +16,7 @@ function Navbar() {
   const userData = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    if (loadUser) {
+    if (loadUser === true) {
       axios({
         method: "get",
         url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,

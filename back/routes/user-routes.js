@@ -17,6 +17,7 @@ router.get("/logout", userCtrl.logout);
 router.get("/", auth.checkUser, userCtrl.getAllUsers);
 router.get("/:id", auth.checkUser, userCtrl.getUser);
 router.put("/:id", auth.checkUser, multer, userCtrl.updateUser);
+router.put("/:id/password", auth.checkUser, userCtrl.updatePassword);
 router.delete("/:id", auth.checkUser, userCtrl.deleteUser);
 
 // Follow

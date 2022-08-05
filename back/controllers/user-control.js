@@ -6,6 +6,7 @@ const { promisify } = require("util");
 const pipeline = promisify(require("stream").pipeline);
 
 const User = require("../models/user-model");
+const exp = require("constants");
 
 /***************************** Authentification *****************************/
 
@@ -101,6 +102,7 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.getUser = (req, res, next) => {
   User.findOne({ _id: req.params.id })
+    .select("-password")
     .then((user) => {
       const filename = user.picture.split("images/users")[1];
       if (fs.existsSync(`images/users/${filename}`)) {
@@ -136,8 +138,7 @@ exports.updateUser = (req, res, next) => {
                 res.status(200).json("Utilisateur modifié !");
               })
               .catch((error) => {
-                console.log("erreur image introuvable"),
-                  res.status(400).json(error);
+                res.status(400).json(error);
               });
           });
         } else {
@@ -154,8 +155,7 @@ exports.updateUser = (req, res, next) => {
               res.status(200).json("Utilisateur modifié !");
             })
             .catch((error) => {
-              console.log("erreur image introuvable"),
-                res.status(400).json(error);
+              res.status(400).json(error);
             });
         }
       } else {
@@ -167,14 +167,33 @@ exports.updateUser = (req, res, next) => {
             res.status(200).json("Utilisateur modifié !");
           })
           .catch((error) => {
-            console.log("erreur image introuvable"),
-              res.status(400).json(error);
+            res.status(400).json(error);
           });
       }
     })
     .catch((error) => {
       res.status(500).json(error);
     });
+};
+
+// Modification de mot de passe
+
+exports.updatePassword = (req, res, next) => {
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      User.updateOne(
+        { _id: req.params.id },
+        { password: hash, _id: req.params.id }
+      )
+        .then(() => {
+          res.status(200).json("Mot de passe modifié !");
+        })
+        .catch((error) => {
+          res.status(400).json(error);
+        });
+    })
+    .catch((error) => res.status(500).json(error));
 };
 
 // Suppression du compte utilisateur
