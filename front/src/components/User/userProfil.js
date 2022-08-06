@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../feature/userSlice";
 import { updateUserInformations } from "../../feature/userSlice";
-import { UidContext } from "../../components/AppContext";
-import { options } from "../../components/departments";
+import { UidContext } from "../AppContext";
+import { options } from "../departments";
 
 const UserProfil = () => {
   const uid = useContext(UidContext);
@@ -105,7 +105,7 @@ const UserProfil = () => {
         setIsUpdatingInformations(false);
         // window.location.reload();
       })
-      .catch((err) => console.log(department, err));
+      .catch((err) => console.log(err));
   };
 
   // Modifications MDP

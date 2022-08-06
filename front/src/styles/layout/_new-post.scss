@@ -1,0 +1,151 @@
+.new-post {
+  max-width: 700px;
+}
+
+.new-post-card {
+  background-color: $secondary-color;
+  border-radius: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+
+  .user-picture {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px 10px 10px 10px;
+    }
+  }
+
+  .new-post-card-btn-bloc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .new-post-card-btn {
+      height: 30px;
+      border: none;
+      border-radius: 20px 20px 20px 20px;
+      font-weight: 600;
+      font-size: smaller;
+      background-color: #fff0f0;
+      box-shadow: 1px 1px 10px #967b7b;
+    }
+
+    .new-post-card-btn:active {
+      background-color: $secondary-color;
+      box-shadow: inset 1px 1px 5px #967b7b;
+    }
+  }
+}
+
+// Edition du post
+
+.edit-post-card {
+  background-color: $secondary-color;
+  border-radius: 10px 10px 10px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .user {
+    border-bottom: solid 1px $primary-color;
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    gap: 20px;
+
+    .user-picture {
+      width: 30%;
+      display: flex;
+      justify-content: center;
+
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px 10px 10px 10px;
+      }
+    }
+
+    .user-informations {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .name {
+      font-weight: 700;
+    }
+
+    .department {
+      font-size: smaller;
+    }
+  }
+
+  .post-edit {
+    padding: 10px 10px 10px 10px;
+
+    form {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      textarea {
+        width: 100%;
+        height: 200px;
+        border: none;
+        border-radius: 10px 10px 10px 10px;
+      }
+    }
+  }
+}
+
+.edit-post-btn-bloc {
+  height: 30px;
+  border-top: solid 1px $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.edit-post-btn {
+  height: 20px;
+  border: none;
+  border-radius: 20px 20px 20px 20px;
+  font-weight: 600;
+  font-size: smaller;
+  background-color: #fff0f0;
+  box-shadow: 1px 1px 10px #967b7b;
+}
+
+.submit-post-btn-bloc {
+  height: 60px;
+  border-top: solid 1px $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.submit-post-btn {
+  height: 30px;
+  min-width: 100px;
+  border: none;
+  border-radius: 20px 20px 20px 20px;
+  font-weight: 600;
+  font-size: smaller;
+  background-color: #fff0f0;
+  box-shadow: 1px 1px 10px #967b7b;
+}
+
+@include tablet-portrait {
+  .edit-post-card {
+    textarea {
+      max-width: 600px;
+    }
+  }
+}

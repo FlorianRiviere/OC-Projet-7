@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { UidContext } from "../components/AppContext";
 import Header from "../components/Header";
-import Log from "../components/Log";
+import Log from "../components/Log/Log";
 import Navbar from "../components/Navbar";
+import Thread from "../components/Post/Thread";
 
 function Home() {
   const uid = useContext(UidContext);
@@ -14,9 +15,7 @@ function Home() {
         <>
           <div className="main-page">
             <Navbar />
-            <main>
-              <div>Bienvenue !</div>
-            </main>
+            <Thread />
           </div>
         </>
       ) : (
