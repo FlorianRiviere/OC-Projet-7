@@ -1,8 +1,3 @@
-html {
-  height: 100%;
-  width: 100%;
-}
-
 body {
   height: 100%;
   width: 100%;
@@ -21,6 +16,7 @@ div {
 
 .main-page {
   height: 100%;
+  padding-bottom: 70px;
   display: flex;
   flex-direction: column-reverse;
 }
@@ -48,7 +44,18 @@ h2 {
   font-weight: 600;
 }
 
+button {
+  font-family: "lato";
+  color: $tertiary-color;
+  cursor: pointer;
+}
+
 @include tablet-portrait {
+  html {
+    height: 100%;
+    width: 100%;
+  }
+
   .main-page {
     flex-direction: row;
   }

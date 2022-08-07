@@ -43,7 +43,7 @@ exports.createPost = (req, res, next) => {
     writeStream.end();
 
     const post = new Post({
-      author: req.auth.userId,
+      author: req.body.author,
       content: req.body.content,
       picture: `${req.protocol}://${req.get("host")}/images/posts/${fileName}`,
     });
@@ -53,7 +53,7 @@ exports.createPost = (req, res, next) => {
       .catch((error) => res.status(400).json(error));
   } else {
     const post = new Post({
-      author: req.auth.userId,
+      author: req.body.author,
       content: req.body.content,
     });
     post

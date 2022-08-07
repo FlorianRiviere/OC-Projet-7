@@ -44,7 +44,7 @@
 
 // Edition du post
 
-.edit-post-card {
+.post-card {
   background-color: $secondary-color;
   border-radius: 10px 10px 10px 10px;
   display: flex;
@@ -84,7 +84,7 @@
     }
   }
 
-  .post-edit {
+  .post-text {
     padding: 10px 10px 10px 10px;
 
     form {
@@ -99,6 +99,7 @@
         height: 200px;
         border: none;
         border-radius: 10px 10px 10px 10px;
+        padding: 5px 5px 5px 5px;
       }
     }
   }
@@ -128,12 +129,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .submit-post-btn {
   height: 30px;
-  min-width: 100px;
+  width: 145px;
   border: none;
   border-radius: 20px 20px 20px 20px;
   font-weight: 600;
@@ -147,5 +148,11 @@
     textarea {
       max-width: 600px;
     }
+  }
+}
+
+@media screen and (min-width: 375px) {
+  .submit-post-btn-bloc {
+    gap: 20px;
   }
 }

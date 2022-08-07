@@ -41,7 +41,7 @@ function NewPost() {
 
   const handlePost = (e) => {
     e.preventDefault();
-    if (content === undefined) {
+    if (content === "") {
       alert("Publication vide");
     } else {
       axios({
@@ -83,7 +83,7 @@ function NewPost() {
           </div>
         )}
         {editPost && (
-          <div className="edit-post-card">
+          <div className="post-card">
             <div className="user">
               <div className="user-picture">
                 <img
@@ -98,9 +98,14 @@ function NewPost() {
                 <div className="department">Service {userData.department}</div>
               </div>
             </div>
-            <div className="post-edit">
+            <div className="post-text">
               <form id="new-post">
-                <textarea onChange={setContent}></textarea>
+                <label htmlFor="content"></label>
+                <textarea
+                  name="content"
+                  id="content"
+                  onChange={(e) => setContent(e.target.value)}
+                ></textarea>
                 {uploadImage === false && (
                   <button
                     className="edit-post-btn"

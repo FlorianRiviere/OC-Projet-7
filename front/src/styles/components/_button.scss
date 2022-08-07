@@ -1,25 +1,3 @@
-.log-btn-bloc {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-}
-.log-btn {
-  width: 50%;
-  max-width: 176px;
-  height: 40px;
-  border: none;
-  border-radius: 20px 20px 20px 20px;
-  font-size: large;
-  font-weight: 600;
-  background-color: #fff0f0;
-  box-shadow: 1px 1px 10px #967b7b;
-}
-.log-btn:active {
-  background-color: $secondary-color;
-  box-shadow: inset 1px 1px 5px #967b7b;
-}
-
 // Update image
 
 .image-btn-bloc {

@@ -7,11 +7,17 @@ function Thread() {
     <>
       <main>
         <h1>Publications</h1>
+
         <div className="new-post">
-          <NewPost />
+          <section>
+            <NewPost />
+          </section>
         </div>
+
         <div className="thread">
-          <PostCard />
+          <section>
+            <PostCard />
+          </section>
         </div>
       </main>
     </>

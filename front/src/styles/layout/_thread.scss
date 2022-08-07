@@ -1,0 +1,150 @@
+.thread {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  section {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+    gap: 20px;
+
+    article {
+      width: 100%;
+      background-color: $secondary-color;
+      border-radius: 10px 10px 10px 10px;
+
+      .author-card {
+        padding: 10px 10px 10px;
+        border-bottom: solid 1px $primary-color;
+        display: flex;
+        gap: 20px;
+
+        .author-image {
+          width: 70px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px 10px 10px 10px;
+          }
+        }
+
+        .author-informations {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+
+          .name {
+            font-weight: 700;
+          }
+
+          .department {
+            font-size: smaller;
+          }
+        }
+      }
+
+      .post-content {
+        padding: 10px 10px 10px 10px;
+        border-bottom: solid 1px $primary-color;
+        color: black;
+      }
+
+      .post-interaction {
+        width: 100%;
+        padding: 10px 10px 10px 10px;
+        border-bottom: solid 1px $primary-color;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        button {
+          width: 170px;
+          font-size: 14px;
+          padding: 0;
+          border: solid 1px $secondary-color;
+          background-color: $secondary-color;
+          font-weight: 500;
+          text-align: start;
+          cursor: pointer;
+        }
+        button:active {
+          color: $primary-color;
+        }
+      }
+
+      .interaction {
+        padding: 10px 10px 10px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+
+        .like-bloc {
+          width: 100px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+
+          img {
+            width: 30px;
+            height: 30px;
+          }
+        }
+
+        @media screen and (min-width: 385px) {
+          .like-bloc {
+            width: 130px;
+          }
+        }
+
+        .comment-interaction {
+          width: 60%;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 20px;
+
+          .about-comment {
+            width: 170px;
+            display: flex;
+            align-items: center;
+
+            p {
+              color: $tertiary-color;
+              font-size: 14px;
+              font-weight: 500;
+            }
+          }
+
+          button {
+            width: 170px;
+            font-size: 14px;
+            padding: 0;
+            border: solid 1px $secondary-color;
+            background-color: $secondary-color;
+            font-weight: 500;
+            text-align: start;
+            cursor: pointer;
+          }
+          button:active {
+            color: $primary-color;
+          }
+        }
+
+        @media screen and (min-width: 550px) {
+          .comment-interaction {
+            width: 70%;
+          }
+        }
+      }
+    }
+  }
+}
