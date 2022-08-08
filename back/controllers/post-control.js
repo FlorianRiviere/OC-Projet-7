@@ -19,33 +19,13 @@ exports.createPost = (req, res, next) => {
     ) {
       return res.status(400).json({ message: "Mauvais format d'image" });
     }
-    let mimeType;
-    if (req.file.mimetype == "image/jpg") {
-      mimeType = ".jpg";
-    }
-    if (req.file.mimetype == "image/jpeg") {
-      mimeType = ".jpeg";
-    }
-    if (req.file.mimetype == "image/png") {
-      mimeType = ".png";
-    }
-
-    const fileName = "user" + req.auth.userId + Date.now() + mimeType;
-
-    let writeStream = fs.createWriteStream(
-      `${__dirname}images/posts/${fileName}`
-    );
-    writeStream.write(req.file.buffer);
-    writeStream.on("finish", () => {
-      console.log("Fichier mis à jour !");
-    });
-
-    writeStream.end();
 
     const post = new Post({
       author: req.body.author,
       content: req.body.content,
-      picture: `${req.protocol}://${req.get("host")}/images/posts/${fileName}`,
+      picture: `${req.protocol}://${req.get("host")}/images/posts/${
+        req.file.filename
+      }`,
     });
     post
       .save()

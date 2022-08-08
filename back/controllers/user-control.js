@@ -2,11 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const { signUpError } = require("../utils/errors-utils");
-const { promisify } = require("util");
-const pipeline = promisify(require("stream").pipeline);
 
 const User = require("../models/user-model");
-const exp = require("constants");
 
 /***************************** Authentification *****************************/
 

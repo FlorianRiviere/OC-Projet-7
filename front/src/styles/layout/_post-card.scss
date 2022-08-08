@@ -41,6 +41,19 @@ article {
     padding: 10px 10px 10px 10px;
     border-bottom: solid 1px $primary-color;
     color: black;
+    display: flex;
+    flex-wrap: wrap;
+
+    .post-text {
+      width: 100%;
+      margin: 0 10px 0 10px;
+    }
+
+    .post-image {
+      margin: 30px 10px 10px 10px;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   .post-interaction {

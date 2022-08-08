@@ -44,20 +44,28 @@ function NewPost() {
     if (content === "") {
       alert("Publication vide");
     } else {
+      const data = new FormData();
+
+      data.append("author", author);
+      data.append("content", content);
+      data.append("image", picture);
+
+      console.log(picture);
+      for (var pair of data.entries()) {
+        console.log(pair[0] + " - " + pair[1]);
+      }
+
       axios({
         method: "post",
         url: `${process.env.REACT_APP_API_URL}api/posts`,
         withCredentials: true,
-        data: {
-          author,
-          content,
-          picture,
-        },
+        data: data,
+        headers: { "Content-Type": "multipart/form-data" },
       })
         .then(() => {
           dispatch(addPost);
           alert("Publication créée");
-          setUploadImage(false);
+          // setUploadImage(false);
           // window.location.reload();
         })
         .catch((err) => console.log(err));
