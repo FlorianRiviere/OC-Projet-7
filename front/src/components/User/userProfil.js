@@ -2,16 +2,26 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "../../feature/userSlice";
+import { getUsersData } from "../../feature/usersSlice";
+import { getPostsData } from "../../feature/postsSlice";
+import { getCommentsData } from "../../feature/commentsSlice";
 import { updateUserInformations } from "../../feature/userSlice";
-import { UidContext } from "../AppContext";
-import { options } from "../departments";
+import { UidContext } from "../../components/AppContext";
+import { options } from "../../components/departments";
+
+import Like from "../../assets/icons/thumbs-up-regular.svg";
+import Dislike from "../../assets/icons/thumbs-down-regular.svg";
 
 const UserProfil = () => {
   const uid = useContext(UidContext);
 
   const dispatch = useDispatch();
   const [loadingUser, setLoadingUser] = useState(true);
+  const [loadUsers, setLoadUsers] = useState(true);
+  const [loadPosts, setLoadPosts] = useState(true);
+  const [loadComments, setLoadComments] = useState(true);
 
+  const [unrolledComments, setUnrolledComments] = useState(false);
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
   const [isUpdatingInformations, setIsUpdatingInformations] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
@@ -48,12 +58,49 @@ const UserProfil = () => {
           .catch((err) => console.log(err));
       };
       getUser();
-    } else {
-      return;
     }
-  }, [dispatch, uid, loadingUser]);
+    if (loadUsers === true) {
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/users`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          dispatch(getUsersData(res.data));
+          setLoadUsers(false);
+        })
+        .catch((err) => console.log(err));
+    }
+    if (loadPosts === true) {
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/posts`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          dispatch(getPostsData(res.data));
+          setLoadPosts(false);
+        })
+        .catch((err) => console.log(err));
+    }
+    if (loadComments === true) {
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/comments`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          dispatch(getCommentsData(res.data));
+          setLoadComments(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [dispatch, uid, loadingUser, loadUsers, loadPosts, loadComments]);
 
   const userData = useSelector((state) => state.user.user);
+  const usersData = useSelector((state) => state.users.users);
+  const postsData = useSelector((state) => state.posts.posts);
+  const commentsData = useSelector((state) => state.comments.comments);
 
   // Modifications images
 
@@ -105,7 +152,7 @@ const UserProfil = () => {
         setIsUpdatingInformations(false);
         // window.location.reload();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(department, err));
   };
 
   // Modifications MDP
@@ -295,7 +342,110 @@ const UserProfil = () => {
 
                 <section className="user-posts">
                   <h2>Publications</h2>
-                  <div className="posts"></div>
+                  <div className="posts">
+                    {postsData.map(
+                      (post) =>
+                        post.author === uid && (
+                          <article key={post._id}>
+                            <div className="author-card">
+                              <div className="author-image">
+                                <img
+                                  src={userData.picture}
+                                  alt="Pastille de l'auteur de la publication"
+                                ></img>
+                              </div>
+                              <div className="author-informations">
+                                <div className="name">
+                                  {userData.firstName} {userData.lastName}
+                                </div>
+                                <div className="department">
+                                  Service {userData.department}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="post-content">
+                              <div className="post-text">{post.content}</div>
+                              {post.picture && (
+                                <div className="post-image">
+                                  <img
+                                    src={post.picture}
+                                    alt="Illustration de la publication"
+                                  ></img>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="post-interaction">
+                              <button>Modifier la publication</button>
+                              <button>Supprimer la publication</button>
+                            </div>
+                            <div className="interaction">
+                              <div className="like-bloc">
+                                <img src={Like} alt="Bouton j'aime"></img>
+                                <img
+                                  src={Dislike}
+                                  alt="Bouton je n'aime pas"
+                                ></img>
+                              </div>
+                              <div className="comment-interaction">
+                                {!commentsData && (
+                                  <div className="about-comment">
+                                    <p>Pas de commentaires</p>
+                                  </div>
+                                )}
+                                {commentsData && unrolledComments === false && (
+                                  <button
+                                    onClick={() => setUnrolledComments(true)}
+                                  >
+                                    Afficher les commentaires
+                                  </button>
+                                )}
+                                {commentsData && unrolledComments === true && (
+                                  <button
+                                    onClick={() => setUnrolledComments(false)}
+                                  >
+                                    Masquer les commentaires
+                                  </button>
+                                )}
+                                <button>Ajouter un commentaire</button>
+                              </div>
+                            </div>
+
+                            {commentsData && unrolledComments === true && (
+                              <div className="comments-card">
+                                <div className="comments-author-card">
+                                  <div className="author-image">
+                                    <img
+                                      src={usersData.picture}
+                                      alt="Pastille de l'auteur du commentaire"
+                                    ></img>
+                                  </div>
+                                  <div className="name">
+                                    {usersData.firstName + usersData.lastName}
+                                  </div>
+                                </div>
+                                <div className="comment-content">
+                                  {commentsData.content}
+                                </div>
+                                <div className="comment-interaction">
+                                  <div className="like-bloc">
+                                    <img src={Like} alt="Bouton j'aime"></img>
+                                    <img
+                                      src={Dislike}
+                                      alt="Bouton je n'aime pas"
+                                    ></img>
+                                  </div>
+                                  <div className="comment-interaction">
+                                    <button>Modifier le commentaire</button>
+                                    <button>Supprimer le commentaire</button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </article>
+                        )
+                    )}
+                  </div>
                 </section>
               </div>
             </>

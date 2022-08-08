@@ -60,8 +60,6 @@ function PostCard() {
   const postsData = useSelector((state) => state.posts.posts);
   const commentsData = useSelector((state) => state.comments.comments);
 
-  let user = null;
-
   if (loadUsers === false && loadPosts === false && loadComments === false) {
     return (
       <>

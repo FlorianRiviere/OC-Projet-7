@@ -7,9 +7,10 @@
   border-radius: 10px 10px 10px 10px;
   padding: 10px 10px 10px 10px;
   display: flex;
+  gap: 20px;
 
   .user-picture {
-    width: 30%;
+    width: 70px;
     display: flex;
     justify-content: center;
 
@@ -22,7 +23,6 @@
 
   .new-post-card-btn-bloc {
     display: flex;
-    justify-content: center;
     align-items: center;
 
     .new-post-card-btn {
@@ -58,7 +58,7 @@
     gap: 20px;
 
     .user-picture {
-      width: 30%;
+      width: 70px;
       display: flex;
       justify-content: center;
 
@@ -117,7 +117,7 @@
   height: 20px;
   border: none;
   border-radius: 20px 20px 20px 20px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: smaller;
   background-color: #fff0f0;
   box-shadow: 1px 1px 10px #967b7b;
@@ -137,7 +137,9 @@
   width: 145px;
   border: none;
   border-radius: 20px 20px 20px 20px;
-  font-weight: 600;
+  font-weight: 500;
+  font-family: "lato";
+  color: $tertiary-color;
   font-size: smaller;
   background-color: #fff0f0;
   box-shadow: 1px 1px 10px #967b7b;
