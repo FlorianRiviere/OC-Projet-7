@@ -22,7 +22,7 @@ function PostCard() {
   const [updatePost, setUpdatePost] = useState(false);
   const [uploadImage, setUploadImage] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
-  const [updatePostId, setUpdatePostId] = useState("");
+  const [postId, setPostId] = useState("");
   const [picture, setPicture] = useState("");
   const [content, setContent] = useState("");
 
@@ -97,7 +97,7 @@ function PostCard() {
 
       axios({
         method: "put",
-        url: `${process.env.REACT_APP_API_URL}api/posts/${updatePostId}`,
+        url: `${process.env.REACT_APP_API_URL}api/posts/${postId}`,
         withCredentials: true,
         data: data,
         headers: { "Content-Type": "multipart/form-data" },
@@ -112,7 +112,7 @@ function PostCard() {
     } else {
       axios({
         method: "put",
-        url: `${process.env.REACT_APP_API_URL}api/posts/${updatePostId}`,
+        url: `${process.env.REACT_APP_API_URL}api/posts/${postId}`,
         withCredentials: true,
         data: { content },
       })
@@ -124,6 +124,25 @@ function PostCard() {
         })
         .catch((err) => console.log(err));
     }
+  };
+
+  // Supprimer un post
+
+  const handleDeletePost = (e) => {
+    e.preventDefault();
+
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}api/posts/${postId}`,
+      withCredentials: true,
+    })
+      .then(() => {
+        // dispatch(updateUserInformations);
+        alert("Publication supprimée !");
+        setUpdatePost(false);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
   };
 
   if (loadUsers === false && loadPosts === false && loadComments === false) {
@@ -154,7 +173,7 @@ function PostCard() {
                   )
               )}
 
-              {post._id !== updatePostId && (
+              {(updatePost === false || post._id !== postId) && (
                 <div className="post-content">
                   <div className="post-text">{post.content}</div>
                   {post.picture && (
@@ -168,7 +187,7 @@ function PostCard() {
                 </div>
               )}
 
-              {updatePost === true && post._id === updatePostId && (
+              {updatePost === true && post._id === postId && (
                 <form id="update-post">
                   <div className="post-content">
                     <label htmlFor="content"></label>
@@ -244,7 +263,8 @@ function PostCard() {
                     <button
                       onClick={() => {
                         setUpdatePost(true);
-                        setUpdatePostId(post._id);
+                        setDeletePost(false);
+                        setPostId(post._id);
                         setContent(post.content);
                         setPicture(post.picture);
                       }}
@@ -253,10 +273,10 @@ function PostCard() {
                     </button>
                   )}
 
-                  {updatePost === true && updatePostId !== post._id && (
+                  {updatePost === true && postId !== post._id && (
                     <button
                       onClick={() => {
-                        setUpdatePostId(post._id);
+                        setPostId(post._id);
                         setContent(post.content);
                         setPicture(post.picture);
                       }}
@@ -265,7 +285,7 @@ function PostCard() {
                     </button>
                   )}
 
-                  {updatePost === true && updatePostId === post._id && (
+                  {updatePost === true && postId === post._id && (
                     <div className="update-post-interaction">
                       <input
                         className="update-post-btn"
@@ -278,7 +298,7 @@ function PostCard() {
                         className="update-post-btn"
                         onClick={() => {
                           setUpdatePost(false);
-                          setUpdatePostId("");
+                          setPostId("");
                           setContent("");
                           setPicture("");
                         }}
@@ -288,7 +308,37 @@ function PostCard() {
                     </div>
                   )}
 
-                  <button>Supprimer la publication</button>
+                  {(post._id !== postId || deletePost === false) && (
+                    <button
+                      onClick={() => {
+                        setDeletePost(true);
+                        setUpdatePost(false);
+                        setPostId(post._id);
+                      }}
+                    >
+                      Supprimer la publication
+                    </button>
+                  )}
+                  {deletePost === true && postId === post._id && (
+                    <div className="delete-post-interaction">
+                      <p>Voulez-vous vraiment supprimer cette publication ?</p>
+                      <button
+                        className="delete-post-btn"
+                        onClick={handleDeletePost}
+                      >
+                        Confirmer
+                      </button>
+                      <button
+                        className="delete-post-btn"
+                        onClick={() => {
+                          setDeletePost(false);
+                          setPostId("");
+                        }}
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
