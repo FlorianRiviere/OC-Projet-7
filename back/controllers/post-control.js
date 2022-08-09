@@ -2,8 +2,6 @@ const Post = require("../models/post-model");
 const User = require("../models/user-model");
 const Comment = require("../models/comment-model");
 const fs = require("fs");
-const { promisify } = require("util");
-const pipeline = promisify(require("stream").pipeline);
 
 // Création du post
 
@@ -62,64 +60,56 @@ exports.getOnePost = (req, res, next) => {
 // Modification d'un post
 
 exports.modifyPost = (req, res, next) => {
+  console.log(req.file);
+  console.log(req.body);
+  console.log(req.params.id);
+
   Post.findOne({ _id: req.params.id })
     .then((post) => {
-      if ((post.author = req.auth.userId || req.auth.isAdmin == true)) {
-        if (!req.file) {
-          Post.updateOne(
-            { _id: req.params.id },
-            { ...req.body.post, _id: req.params.id }
-          )
-            .then(() => res.status(200).json({ message: "Post modifié !" }))
-            .catch((error) => res.status(400).json(error));
-        } else {
-          if (req.file.size > 9200000) {
-            return res.status(400).json({ message: "Image trop grande" });
-          }
-          if (
-            req.file.mimetype !== "image/jpg" &&
-            req.file.mimetype !== "image/jpeg" &&
-            req.file.mimetype !== "image/png"
-          ) {
-            return res.status(400).json({ message: "Mauvais format d'image" });
-          }
-          let mimeType;
-          if (req.file.mimetype == "image/jpg") {
-            mimeType = ".jpg";
-          }
-          if (req.file.mimetype == "image/jpeg") {
-            mimeType = ".jpeg";
-          }
-          if (req.file.mimetype == "image/png") {
-            mimeType = ".png";
-          }
+      if (req.file) {
+        if (req.file.size > 9200000) {
+          return res.status(400).json({ message: "Image trop grande" });
+        }
+        if (
+          req.file.mimetype !== "image/jpg" &&
+          req.file.mimetype !== "image/jpeg" &&
+          req.file.mimetype !== "image/png"
+        ) {
+          return res.status(400).json({ message: "Mauvais format d'image" });
+        }
+        let mimeType;
+        if (req.file.mimetype == "image/jpg") {
+          mimeType = ".jpg";
+        }
+        if (req.file.mimetype == "image/jpeg") {
+          mimeType = ".jpeg";
+        }
+        if (req.file.mimetype == "image/png") {
+          mimeType = ".png";
+        }
 
-          const fileName = "post" + req.auth.userId + Date.now() + mimeType;
-
-          let writeStream = fs.createWriteStream(
-            `${__dirname}images/posts/${fileName}`
-          );
-          writeStream.write(req.file.buffer);
-          writeStream.on("finish", () => {
-            console.log("Fichier mis à jour !");
-          });
-
-          writeStream.end();
+        const filename = post.picture.split("images/posts/")[1];
+        fs.unlink(`images/posts/${filename}`, () => {
           Post.updateOne(
             { _id: req.params.id },
             {
-              ...req.body.user,
-              picture: `${req.protocol}://${req.get(
-                "host"
-              )}/images/posts/${fileName}`,
+              ...req.body,
+              picture: `${req.protocol}://${req.get("host")}/images/posts/${
+                req.file.filename
+              }`,
               _id: req.params.id,
             }
           )
             .then(() => res.status(200).json({ message: "Post modifié !" }))
             .catch((error) => res.status(400).json(error));
-        }
+        });
       } else {
-        res.status(401).json({ message: "Non autorisé !" });
+        Post.updateOne(
+          { _id: req.params.id },
+          { ...req.body, _id: req.params.id }
+        )
+          .then(() => res.status(200).json({ message: "Post modifié !" }))
+          .catch((error) => res.status(400).json(error));
       }
     })
     .catch((error) => res.status(500).json(error));

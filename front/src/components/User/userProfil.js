@@ -132,9 +132,6 @@ const UserProfil = () => {
 
   const handleInformations = (e) => {
     e.preventDefault();
-    if (firstName === undefined) {
-      setFirstName(firstName.defaultValue);
-    }
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,

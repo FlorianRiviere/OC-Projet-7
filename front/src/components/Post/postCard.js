@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { UidContext } from "../../components/AppContext";
+import { getUserData } from "../../feature/userSlice";
 import { getUsersData } from "../../feature/usersSlice";
 import { getPostsData } from "../../feature/postsSlice";
 import { getCommentsData } from "../../feature/commentsSlice";
@@ -8,6 +10,8 @@ import Like from "../../assets/icons/thumbs-up-regular.svg";
 import Dislike from "../../assets/icons/thumbs-down-regular.svg";
 
 function PostCard() {
+  const uid = useContext(UidContext);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [loadUsers, setLoadUsers] = useState(true);
   const [loadPosts, setLoadPosts] = useState(true);
   const [loadComments, setLoadComments] = useState(true);
@@ -15,9 +19,28 @@ function PostCard() {
 
   const [unrolledComments, setUnrolledComments] = useState(false);
 
+  const [updatePost, setUpdatePost] = useState(false);
+  const [uploadImage, setUploadImage] = useState(false);
+  const [deletePost, setDeletePost] = useState(false);
+  const [updatePostId, setUpdatePostId] = useState("");
+  const [picture, setPicture] = useState("");
+  const [content, setContent] = useState("");
+
   //   Récupération des données
 
   useEffect(() => {
+    if (loadingUser === true) {
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          dispatch(getUserData(res.data));
+          setLoadingUser(false);
+        })
+        .catch((err) => console.log(err));
+    }
     if (loadUsers === true) {
       axios({
         method: "get",
@@ -56,9 +79,52 @@ function PostCard() {
     }
   }, [dispatch, loadUsers, loadPosts, loadComments]);
 
+  const userData = useSelector((state) => state.user.user);
   const usersData = useSelector((state) => state.users.users);
   const postsData = useSelector((state) => state.posts.posts);
   const commentsData = useSelector((state) => state.comments.comments);
+
+  // Modification d'un post
+
+  const handlePost = (e) => {
+    e.preventDefault();
+
+    if (picture) {
+      const data = new FormData();
+
+      data.append("content", content);
+      data.append("image", picture);
+
+      axios({
+        method: "put",
+        url: `${process.env.REACT_APP_API_URL}api/posts/${updatePostId}`,
+        withCredentials: true,
+        data: data,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then(() => {
+          // dispatch(updateUserInformations);
+          alert("Informations modifiées");
+          setUpdatePost(false);
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      axios({
+        method: "put",
+        url: `${process.env.REACT_APP_API_URL}api/posts/${updatePostId}`,
+        withCredentials: true,
+        data: { content },
+      })
+        .then(() => {
+          // dispatch(updateUserInformations);
+          alert("Informations modifiées");
+          setUpdatePost(false);
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   if (loadUsers === false && loadPosts === false && loadComments === false) {
     return (
@@ -87,27 +153,151 @@ function PostCard() {
                     </div>
                   )
               )}
-              <div className="post-content">
-                <div className="post-text">{post.content}</div>
-                {post.picture && (
-                  <div className="post-image">
-                    <img
-                      src={post.picture}
-                      alt="Illustration de la publication"
-                    ></img>
-                  </div>
-                )}
-              </div>
 
-              <div className="post-interaction">
-                <button>Modifier la publication</button>
-                <button>Supprimer la publication</button>
-              </div>
+              {post._id !== updatePostId && (
+                <div className="post-content">
+                  <div className="post-text">{post.content}</div>
+                  {post.picture && (
+                    <div className="post-image">
+                      <img
+                        src={post.picture}
+                        alt="Illustration de la publication"
+                      ></img>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {updatePost === true && post._id === updatePostId && (
+                <form id="update-post">
+                  <div className="post-content">
+                    <label htmlFor="content"></label>
+                    <textarea
+                      name="content"
+                      id="content"
+                      defaultValue={post.content}
+                      onChange={(e) => setContent(e.target.value)}
+                    ></textarea>
+
+                    {post.picture && (
+                      <div className="post-image">
+                        <img
+                          src={post.picture}
+                          alt="Illustration de la publication"
+                        ></img>
+                        {uploadImage === false && (
+                          <button
+                            className="edit-post-btn"
+                            onClick={() => setUploadImage(true)}
+                          >
+                            Modifier l'image
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {!post.picture && (
+                      <div className="post-image">
+                        {uploadImage === false && (
+                          <button
+                            className="edit-post-btn"
+                            onClick={() => setUploadImage(true)}
+                          >
+                            Ajouter une image
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {uploadImage === true && (
+                      <>
+                        <div className="post-image">
+                          <label htmlFor="file"></label>
+                          <input
+                            type="file"
+                            id="file"
+                            className="choose-image"
+                            accept=".jpg, .jpeg, .png"
+                            onChange={(e) => setPicture(e.target.files[0])}
+                          />
+                          <div className="edit-post-btn-bloc">
+                            <button
+                              className="edit-post-btn"
+                              onClick={() => {
+                                setUploadImage(false);
+                                setPicture(post.picture);
+                              }}
+                            >
+                              Annuler
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </form>
+              )}
+
+              {(userData._id === post.author || userData.isAdmin === true) && (
+                <div className="post-interaction">
+                  {updatePost === false && (
+                    <button
+                      onClick={() => {
+                        setUpdatePost(true);
+                        setUpdatePostId(post._id);
+                        setContent(post.content);
+                        setPicture(post.picture);
+                      }}
+                    >
+                      Modifier la publication
+                    </button>
+                  )}
+
+                  {updatePost === true && updatePostId !== post._id && (
+                    <button
+                      onClick={() => {
+                        setUpdatePostId(post._id);
+                        setContent(post.content);
+                        setPicture(post.picture);
+                      }}
+                    >
+                      Modifier la publication
+                    </button>
+                  )}
+
+                  {updatePost === true && updatePostId === post._id && (
+                    <div className="update-post-interaction">
+                      <input
+                        className="update-post-btn"
+                        form="update-post"
+                        type="submit"
+                        onClick={handlePost}
+                        value="Valider"
+                      />
+                      <button
+                        className="update-post-btn"
+                        onClick={() => {
+                          setUpdatePost(false);
+                          setUpdatePostId("");
+                          setContent("");
+                          setPicture("");
+                        }}
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  )}
+
+                  <button>Supprimer la publication</button>
+                </div>
+              )}
+
               <div className="interaction">
                 <div className="like-bloc">
                   <img src={Like} alt="Bouton j'aime"></img>
                   <img src={Dislike} alt="Bouton je n'aime pas"></img>
                 </div>
+
                 <div className="comment-interaction">
                   {!commentsData && (
                     <div className="about-comment">

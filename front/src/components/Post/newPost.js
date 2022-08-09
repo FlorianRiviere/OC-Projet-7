@@ -50,11 +50,6 @@ function NewPost() {
       data.append("content", content);
       data.append("image", picture);
 
-      console.log(picture);
-      for (var pair of data.entries()) {
-        console.log(pair[0] + " - " + pair[1]);
-      }
-
       axios({
         method: "post",
         url: `${process.env.REACT_APP_API_URL}api/posts`,
@@ -65,7 +60,7 @@ function NewPost() {
         .then(() => {
           dispatch(addPost);
           alert("Publication créée");
-          // setUploadImage(false);
+          setUploadImage(false);
           // window.location.reload();
         })
         .catch((err) => console.log(err));
