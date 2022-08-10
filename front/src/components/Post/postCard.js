@@ -172,307 +172,315 @@ function PostCard() {
   if (api === true) {
     return (
       <>
-        {postsData.map((post) => {
-          return (
-            <article key={post._id}>
-              {usersData.map(
-                (user) =>
-                  user._id === post.author && (
-                    <div className="author-card" key={user._id}>
-                      <div className="author-image">
-                        <img
-                          src={user.picture}
-                          alt="Pastille de l'auteur de la publication"
-                        ></img>
-                      </div>
-                      <div className="author-informations">
-                        <div className="name">
-                          {user.firstName} {user.lastName}
+        {postsData
+          .slice(0)
+          .reverse()
+          .map((post) => {
+            return (
+              <article key={post._id}>
+                {usersData.map(
+                  (user) =>
+                    user._id === post.author && (
+                      <div className="author-card" key={user._id}>
+                        <div className="author-image">
+                          <img
+                            src={user.picture}
+                            alt="Pastille de l'auteur de la publication"
+                          ></img>
                         </div>
-                        <div className="department">
-                          Service {user.department}
+                        <div className="author-informations">
+                          <div className="name">
+                            {user.firstName} {user.lastName}
+                          </div>
+                          <div className="department">
+                            Service {user.department}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )
-              )}
+                    )
+                )}
 
-              {(updatePost === false || postId !== post._id) && (
-                <div className="post-content">
-                  <div className="post-text">{post.content}</div>
-                  {post.picture && (
-                    <div className="post-image">
-                      <img
-                        src={post.picture}
-                        alt="Illustration de la publication"
-                      ></img>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {updatePost === true && postId === post._id && (
-                <form id="update-post">
+                {(updatePost === false || postId !== post._id) && (
                   <div className="post-content">
-                    <label htmlFor="content"></label>
-                    <textarea
-                      name="content"
-                      id="content"
-                      defaultValue={post.content}
-                      onChange={(e) => setContent(e.target.value)}
-                    ></textarea>
-
+                    <div className="post-text">{post.content}</div>
                     {post.picture && (
                       <div className="post-image">
                         <img
                           src={post.picture}
                           alt="Illustration de la publication"
                         ></img>
-                        {uploadImage === false && (
-                          <button
-                            className="edit-post-btn"
-                            onClick={() => setUploadImage(true)}
-                          >
-                            Modifier l'image
-                          </button>
-                        )}
                       </div>
                     )}
+                  </div>
+                )}
 
-                    {!post.picture && (
-                      <div className="post-image">
-                        {uploadImage === false && (
-                          <button
-                            className="edit-post-btn"
-                            onClick={() => setUploadImage(true)}
-                          >
-                            Ajouter une image
-                          </button>
-                        )}
-                      </div>
-                    )}
+                {updatePost === true && postId === post._id && (
+                  <form id="update-post">
+                    <div className="post-content">
+                      <label htmlFor="content"></label>
+                      <textarea
+                        name="content"
+                        id="content"
+                        defaultValue={post.content}
+                        onChange={(e) => setContent(e.target.value)}
+                      ></textarea>
 
-                    {uploadImage === true && (
-                      <>
+                      {post.picture && (
                         <div className="post-image">
-                          <label htmlFor="file"></label>
-                          <input
-                            type="file"
-                            id="file"
-                            className="choose-image"
-                            accept=".jpg, .jpeg, .png"
-                            onChange={(e) => setPicture(e.target.files[0])}
-                          />
-                          <div className="edit-post-btn-bloc">
+                          <img
+                            src={post.picture}
+                            alt="Illustration de la publication"
+                          ></img>
+                          {uploadImage === false && (
                             <button
                               className="edit-post-btn"
-                              onClick={() => {
-                                setUploadImage(false);
-                                setPicture(post.picture);
-                              }}
+                              onClick={() => setUploadImage(true)}
                             >
-                              Annuler
+                              Modifier l'image
                             </button>
-                          </div>
+                          )}
                         </div>
-                      </>
-                    )}
-                  </div>
-                </form>
-              )}
+                      )}
 
-              {(userData._id === post.author || userData.isAdmin === true) && (
-                <div className="post-interaction">
-                  {updatePost === false && (
-                    <button
-                      onClick={() => {
-                        setUpdatePost(true);
-                        setDeletePost(false);
-                        setPostId(post._id);
-                        setContent(post.content);
-                        setPicture(post.picture);
-                      }}
-                    >
-                      Modifier la publication
-                    </button>
-                  )}
+                      {!post.picture && (
+                        <div className="post-image">
+                          {uploadImage === false && (
+                            <button
+                              className="edit-post-btn"
+                              onClick={() => setUploadImage(true)}
+                            >
+                              Ajouter une image
+                            </button>
+                          )}
+                        </div>
+                      )}
 
-                  {updatePost === true && postId !== post._id && (
-                    <button
-                      onClick={() => {
-                        setPostId(post._id);
-                        setContent(post.content);
-                        setPicture(post.picture);
-                      }}
-                    >
-                      Modifier la publication
-                    </button>
-                  )}
-
-                  {updatePost === true && postId === post._id && (
-                    <div className="update-post-interaction">
-                      <input
-                        className="update-post-btn"
-                        form="update-post"
-                        type="submit"
-                        onClick={handlePost}
-                        value="Valider"
-                      />
-                      <button
-                        className="update-post-btn"
-                        onClick={() => {
-                          setUpdatePost(false);
-                          setPostId("");
-                          setContent("");
-                          setPicture("");
-                        }}
-                      >
-                        Annuler
-                      </button>
+                      {uploadImage === true && (
+                        <>
+                          <div className="post-image">
+                            <label htmlFor="file"></label>
+                            <input
+                              type="file"
+                              id="file"
+                              className="choose-image"
+                              accept=".jpg, .jpeg, .png"
+                              onChange={(e) => setPicture(e.target.files[0])}
+                            />
+                            <div className="edit-post-btn-bloc">
+                              <button
+                                className="edit-post-btn"
+                                onClick={() => {
+                                  setUploadImage(false);
+                                  setPicture(post.picture);
+                                }}
+                              >
+                                Annuler
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
-                  )}
+                  </form>
+                )}
 
-                  {(post._id !== postId || deletePost === false) && (
-                    <button
-                      onClick={() => {
-                        setDeletePost(true);
-                        setUpdatePost(false);
-                        setPostId(post._id);
-                      }}
-                    >
-                      Supprimer la publication
-                    </button>
-                  )}
-                  {deletePost === true && postId === post._id && (
-                    <div className="delete-post-interaction">
-                      <p>Voulez-vous vraiment supprimer cette publication ?</p>
+                {(userData._id === post.author ||
+                  userData.isAdmin === true) && (
+                  <div className="post-interaction">
+                    {updatePost === false && (
                       <button
-                        className="delete-post-btn"
-                        onClick={handleDeletePost}
-                      >
-                        Confirmer
-                      </button>
-                      <button
-                        className="delete-post-btn"
                         onClick={() => {
+                          setUpdatePost(true);
                           setDeletePost(false);
-                          setPostId("");
-                        }}
-                      >
-                        Annuler
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div className="interaction">
-                <div className="like-bloc">
-                  <div>
-                    <p>{post.likes}</p>
-                    {!post.usersLiked.includes(uid) && (
-                      <button
-                        className="like-btn"
-                        onClick={() => {
-                          setLike(1);
                           setPostId(post._id);
-                          setSendLike(true);
+                          setContent(post.content);
+                          setPicture(post.picture);
                         }}
                       >
-                        <img src={Like} alt="Bouton j'aime"></img>
+                        Modifier la publication
                       </button>
                     )}
-                    {post.usersLiked.includes(uid) && (
+
+                    {updatePost === true && postId !== post._id && (
                       <button
-                        className="like-btn"
                         onClick={() => {
-                          setLike(0);
                           setPostId(post._id);
-                          setSendLike(true);
+                          setContent(post.content);
+                          setPicture(post.picture);
                         }}
                       >
-                        <img src={Liked} alt="Bouton j'aime"></img>
+                        Modifier la publication
                       </button>
+                    )}
+
+                    {updatePost === true && postId === post._id && (
+                      <div className="update-post-interaction">
+                        <input
+                          className="update-post-btn"
+                          form="update-post"
+                          type="submit"
+                          onClick={handlePost}
+                          value="Valider"
+                        />
+                        <button
+                          className="update-post-btn"
+                          onClick={() => {
+                            setUpdatePost(false);
+                            setPostId("");
+                            setContent("");
+                            setPicture("");
+                          }}
+                        >
+                          Annuler
+                        </button>
+                      </div>
+                    )}
+
+                    {(post._id !== postId || deletePost === false) && (
+                      <button
+                        onClick={() => {
+                          setDeletePost(true);
+                          setUpdatePost(false);
+                          setPostId(post._id);
+                        }}
+                      >
+                        Supprimer la publication
+                      </button>
+                    )}
+                    {deletePost === true && postId === post._id && (
+                      <div className="delete-post-interaction">
+                        <p>
+                          Voulez-vous vraiment supprimer cette publication ?
+                        </p>
+                        <button
+                          className="delete-post-btn"
+                          onClick={handleDeletePost}
+                        >
+                          Confirmer
+                        </button>
+                        <button
+                          className="delete-post-btn"
+                          onClick={() => {
+                            setDeletePost(false);
+                            setPostId("");
+                          }}
+                        >
+                          Annuler
+                        </button>
+                      </div>
                     )}
                   </div>
-                  <div>
-                    <p>{post.dislikes}</p>
-                    {!post.usersDisliked.includes(uid) && (
-                      <button
-                        className="dislike-btn"
-                        onClick={() => {
-                          setLike(-1);
-                          setPostId(post._id);
-                          setSendLike(true);
-                        }}
-                      >
-                        <img src={Dislike} alt="Bouton je n'aime pas"></img>
-                      </button>
-                    )}
-                    {post.usersDisliked.includes(uid) && (
-                      <button
-                        className="dislike-btn"
-                        onClick={() => {
-                          setLike(0);
-                          setPostId(post._id);
-                          setSendLike(true);
-                        }}
-                      >
-                        <img src={Disliked} alt="Bouton je n'aime pas"></img>
-                      </button>
-                    )}
-                  </div>
-                </div>
+                )}
 
-                <div className="comment-interaction">
-                  {!commentsData && (
-                    <div className="about-comment">
-                      <p>Pas de commentaires</p>
+                <div className="interaction">
+                  <div className="like-bloc">
+                    <div>
+                      <p>{post.likes}</p>
+                      {!post.usersLiked.includes(uid) && (
+                        <button
+                          className="like-btn"
+                          onClick={() => {
+                            setLike(1);
+                            setPostId(post._id);
+                            setSendLike(true);
+                          }}
+                        >
+                          <img src={Like} alt="Bouton j'aime"></img>
+                        </button>
+                      )}
+                      {post.usersLiked.includes(uid) && (
+                        <button
+                          className="like-btn"
+                          onClick={() => {
+                            setLike(0);
+                            setPostId(post._id);
+                            setSendLike(true);
+                          }}
+                        >
+                          <img src={Liked} alt="Bouton j'aime"></img>
+                        </button>
+                      )}
                     </div>
-                  )}
-                  {commentsData && unrolledComments === false && (
-                    <button onClick={() => setUnrolledComments(true)}>
-                      Afficher les commentaires
-                    </button>
-                  )}
-                  {commentsData && unrolledComments === true && (
-                    <button onClick={() => setUnrolledComments(false)}>
-                      Masquer les commentaires
-                    </button>
-                  )}
-                  <button>Ajouter un commentaire</button>
-                </div>
-              </div>
-
-              {commentsData && unrolledComments === true && (
-                <div className="comments-card">
-                  <div className="comments-author-card">
-                    <div className="author-image">
-                      <img
-                        src={usersData.picture}
-                        alt="Pastille de l'auteur du commentaire"
-                      ></img>
-                    </div>
-                    <div className="name">
-                      {usersData.firstName + usersData.lastName}
+                    <div>
+                      <p>{post.dislikes}</p>
+                      {!post.usersDisliked.includes(uid) && (
+                        <button
+                          className="dislike-btn"
+                          onClick={() => {
+                            setLike(-1);
+                            setPostId(post._id);
+                            setSendLike(true);
+                          }}
+                        >
+                          <img src={Dislike} alt="Bouton je n'aime pas"></img>
+                        </button>
+                      )}
+                      {post.usersDisliked.includes(uid) && (
+                        <button
+                          className="dislike-btn"
+                          onClick={() => {
+                            setLike(0);
+                            setPostId(post._id);
+                            setSendLike(true);
+                          }}
+                        >
+                          <img src={Disliked} alt="Bouton je n'aime pas"></img>
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <div className="comment-content">{commentsData.content}</div>
+
                   <div className="comment-interaction">
-                    <div className="like-bloc">
-                      <img src={Like} alt="Bouton j'aime"></img>
-                      <img src={Dislike} alt="Bouton je n'aime pas"></img>
+                    {!commentsData && (
+                      <div className="about-comment">
+                        <p>Pas de commentaires</p>
+                      </div>
+                    )}
+                    {commentsData && unrolledComments === false && (
+                      <button onClick={() => setUnrolledComments(true)}>
+                        Afficher les commentaires
+                      </button>
+                    )}
+                    {commentsData && unrolledComments === true && (
+                      <button onClick={() => setUnrolledComments(false)}>
+                        Masquer les commentaires
+                      </button>
+                    )}
+                    <button>Ajouter un commentaire</button>
+                  </div>
+                </div>
+
+                {commentsData && unrolledComments === true && (
+                  <div className="comments-card">
+                    <div className="comments-author-card">
+                      <div className="author-image">
+                        <img
+                          src={usersData.picture}
+                          alt="Pastille de l'auteur du commentaire"
+                        ></img>
+                      </div>
+                      <div className="name">
+                        {usersData.firstName + usersData.lastName}
+                      </div>
+                    </div>
+                    <div className="comment-content">
+                      {commentsData.content}
                     </div>
                     <div className="comment-interaction">
-                      <button>Modifier le commentaire</button>
-                      <button>Supprimer le commentaire</button>
+                      <div className="like-bloc">
+                        <img src={Like} alt="Bouton j'aime"></img>
+                        <img src={Dislike} alt="Bouton je n'aime pas"></img>
+                      </div>
+                      <div className="comment-interaction">
+                        <button>Modifier le commentaire</button>
+                        <button>Supprimer le commentaire</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </article>
-          );
-        })}
+                )}
+              </article>
+            );
+          })}
       </>
     );
   }
