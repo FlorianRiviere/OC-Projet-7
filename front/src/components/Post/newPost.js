@@ -60,8 +60,8 @@ function NewPost() {
         .then(() => {
           dispatch(addPost);
           alert("Publication créée");
-          setUploadImage(false);
-          // window.location.reload();
+          // setUploadImage(false);
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     }

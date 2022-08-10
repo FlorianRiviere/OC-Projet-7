@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     if (uid == null) {
       const fetchToken = async () => {
-        axios({
+        await axios({
           method: "get",
           url: `${process.env.REACT_APP_API_URL}jwtid`,
           withCredentials: true,

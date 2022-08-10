@@ -21,7 +21,6 @@ const userSchema = mongoose.Schema(
     isAdmin: { type: Boolean, default: false },
     followers: { type: [String] },
     following: { type: [String] },
-    postliked: { type: [String] },
   },
   { timestamps: true }
 );

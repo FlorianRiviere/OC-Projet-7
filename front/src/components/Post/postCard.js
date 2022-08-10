@@ -6,15 +6,16 @@ import { getUserData } from "../../feature/userSlice";
 import { getUsersData } from "../../feature/usersSlice";
 import { getPostsData } from "../../feature/postsSlice";
 import { getCommentsData } from "../../feature/commentsSlice";
+import Liked from "../../assets/icons/thumbs-up-solid.svg";
+import Disliked from "../../assets/icons/thumbs-down-solid.svg";
 import Like from "../../assets/icons/thumbs-up-regular.svg";
 import Dislike from "../../assets/icons/thumbs-down-regular.svg";
 
 function PostCard() {
   const uid = useContext(UidContext);
-  const [loadingUser, setLoadingUser] = useState(true);
-  const [loadUsers, setLoadUsers] = useState(true);
-  const [loadPosts, setLoadPosts] = useState(true);
-  const [loadComments, setLoadComments] = useState(true);
+
+  const [api, setApi] = useState(false);
+
   const dispatch = useDispatch();
 
   const [unrolledComments, setUnrolledComments] = useState(false);
@@ -25,59 +26,56 @@ function PostCard() {
   const [postId, setPostId] = useState("");
   const [picture, setPicture] = useState("");
   const [content, setContent] = useState("");
+  const [like, setLike] = useState("");
+  const [sendLike, setSendLike] = useState(false);
 
   //   Récupération des données
 
   useEffect(() => {
-    if (loadingUser === true) {
-      axios({
+    const getInformations = async () => {
+      await axios({
         method: "get",
         url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
         withCredentials: true,
       })
         .then((res) => {
           dispatch(getUserData(res.data));
-          setLoadingUser(false);
         })
         .catch((err) => console.log(err));
-    }
-    if (loadUsers === true) {
-      axios({
+
+      await axios({
         method: "get",
         url: `${process.env.REACT_APP_API_URL}api/users`,
         withCredentials: true,
       })
         .then((res) => {
           dispatch(getUsersData(res.data));
-          setLoadUsers(false);
         })
         .catch((err) => console.log(err));
-    }
-    if (loadPosts === true) {
-      axios({
+
+      await axios({
         method: "get",
         url: `${process.env.REACT_APP_API_URL}api/posts`,
         withCredentials: true,
       })
         .then((res) => {
           dispatch(getPostsData(res.data));
-          setLoadPosts(false);
         })
         .catch((err) => console.log(err));
-    }
-    if (loadComments === true) {
-      axios({
+
+      await axios({
         method: "get",
         url: `${process.env.REACT_APP_API_URL}api/comments`,
         withCredentials: true,
       })
         .then((res) => {
           dispatch(getCommentsData(res.data));
-          setLoadComments(false);
         })
         .catch((err) => console.log(err));
-    }
-  }, [dispatch, loadUsers, loadPosts, loadComments]);
+      setApi(true);
+    };
+    getInformations();
+  }, [dispatch, uid]);
 
   const userData = useSelector((state) => state.user.user);
   const usersData = useSelector((state) => state.users.users);
@@ -145,7 +143,33 @@ function PostCard() {
       .catch((err) => console.log(err));
   };
 
-  if (loadUsers === false && loadPosts === false && loadComments === false) {
+  // Gestion des likes
+
+  if (sendLike === true) {
+    const handleLikes = async () => {
+      await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}api/posts/${postId}/like`,
+        withCredentials: true,
+        data: {
+          userId: uid,
+          like,
+        },
+      })
+        .then(() => {
+          // dispatch(updateUserInformations);
+          console.log(postId, like);
+          setPostId("");
+          setLike("");
+          setSendLike(false);
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    };
+    handleLikes();
+  }
+
+  if (api === true) {
     return (
       <>
         {postsData.map((post) => {
@@ -173,7 +197,7 @@ function PostCard() {
                   )
               )}
 
-              {(updatePost === false || post._id !== postId) && (
+              {(updatePost === false || postId !== post._id) && (
                 <div className="post-content">
                   <div className="post-text">{post.content}</div>
                   {post.picture && (
@@ -187,7 +211,7 @@ function PostCard() {
                 </div>
               )}
 
-              {updatePost === true && post._id === postId && (
+              {updatePost === true && postId === post._id && (
                 <form id="update-post">
                   <div className="post-content">
                     <label htmlFor="content"></label>
@@ -344,8 +368,60 @@ function PostCard() {
 
               <div className="interaction">
                 <div className="like-bloc">
-                  <img src={Like} alt="Bouton j'aime"></img>
-                  <img src={Dislike} alt="Bouton je n'aime pas"></img>
+                  <div>
+                    <p>{post.likes}</p>
+                    {!post.usersLiked.includes(uid) && (
+                      <button
+                        className="like-btn"
+                        onClick={() => {
+                          setLike(1);
+                          setPostId(post._id);
+                          setSendLike(true);
+                        }}
+                      >
+                        <img src={Like} alt="Bouton j'aime"></img>
+                      </button>
+                    )}
+                    {post.usersLiked.includes(uid) && (
+                      <button
+                        className="like-btn"
+                        onClick={() => {
+                          setLike(0);
+                          setPostId(post._id);
+                          setSendLike(true);
+                        }}
+                      >
+                        <img src={Liked} alt="Bouton j'aime"></img>
+                      </button>
+                    )}
+                  </div>
+                  <div>
+                    <p>{post.dislikes}</p>
+                    {!post.usersDisliked.includes(uid) && (
+                      <button
+                        className="dislike-btn"
+                        onClick={() => {
+                          setLike(-1);
+                          setPostId(post._id);
+                          setSendLike(true);
+                        }}
+                      >
+                        <img src={Dislike} alt="Bouton je n'aime pas"></img>
+                      </button>
+                    )}
+                    {post.usersDisliked.includes(uid) && (
+                      <button
+                        className="dislike-btn"
+                        onClick={() => {
+                          setLike(0);
+                          setPostId(post._id);
+                          setSendLike(true);
+                        }}
+                      >
+                        <img src={Disliked} alt="Bouton je n'aime pas"></img>
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="comment-interaction">

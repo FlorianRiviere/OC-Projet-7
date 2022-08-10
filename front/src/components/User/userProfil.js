@@ -9,8 +9,8 @@ import { updateUserInformations } from "../../feature/userSlice";
 import { UidContext } from "../../components/AppContext";
 import { options } from "../../components/departments";
 
-import Like from "../../assets/icons/thumbs-up-regular.svg";
-import Dislike from "../../assets/icons/thumbs-down-regular.svg";
+import Like from "../../assets/icons/thumbs-up-solid.svg";
+import Dislike from "../../assets/icons/thumbs-down-solid.svg";
 
 const UserProfil = () => {
   const uid = useContext(UidContext);

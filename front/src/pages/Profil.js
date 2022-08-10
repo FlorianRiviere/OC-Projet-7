@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UidContext } from "../components/AppContext";
-import { Navigate } from "react-router-dom";
+import Log from "../components/Log/Log";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import UserProfil from "../components/User/userProfil";
@@ -19,7 +19,11 @@ function Profil() {
           </div>
         </>
       ) : (
-        <Navigate to="/" />
+        <div className="log">
+          <section className="log-container">
+            <Log />
+          </section>
+        </div>
       )}
     </>
   );

@@ -173,11 +173,27 @@ article {
       width: 100px;
       display: flex;
       justify-content: space-around;
-      align-items: center;
 
-      img {
-        width: 30px;
-        height: 30px;
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .like-btn {
+        padding: 0;
+        width: 25px;
+        height: 25px;
+        background-color: $secondary-color;
+        border: none;
+      }
+
+      .dislike-btn {
+        padding: 0;
+        width: 25px;
+        height: 25px;
+        background-color: $secondary-color;
+        border: none;
       }
     }
 
@@ -192,7 +208,7 @@ article {
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-end;
-      gap: 20px;
+      gap: 15px;
 
       .about-comment {
         width: 170px;
