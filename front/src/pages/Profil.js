@@ -3,7 +3,7 @@ import { UidContext } from "../components/AppContext";
 import Log from "../components/Log/Log";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-import UserProfil from "../components/User/UserProfil";
+import UserProfil from "../components/User/userProfil";
 
 function Profil() {
   const uid = useContext(UidContext);
