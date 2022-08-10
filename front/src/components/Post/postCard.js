@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { UidContext } from "../../components/AppContext";
-import { getUserData } from "../../feature/userSlice";
-import { getUsersData } from "../../feature/usersSlice";
-import { getPostsData } from "../../feature/postsSlice";
-import { getCommentsData } from "../../feature/commentsSlice";
 import Liked from "../../assets/icons/thumbs-up-solid.svg";
 import Disliked from "../../assets/icons/thumbs-down-solid.svg";
 import Like from "../../assets/icons/thumbs-up-regular.svg";
@@ -14,9 +10,10 @@ import Dislike from "../../assets/icons/thumbs-down-regular.svg";
 function PostCard() {
   const uid = useContext(UidContext);
 
-  const [api, setApi] = useState(false);
-
-  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.user);
+  const usersData = useSelector((state) => state.users.users);
+  const postsData = useSelector((state) => state.posts.posts);
+  const commentsData = useSelector((state) => state.comments.comments);
 
   const [unrolledComments, setUnrolledComments] = useState(false);
 
@@ -28,59 +25,6 @@ function PostCard() {
   const [content, setContent] = useState("");
   const [like, setLike] = useState("");
   const [sendLike, setSendLike] = useState(false);
-
-  //   Récupération des données
-
-  useEffect(() => {
-    const getInformations = async () => {
-      await axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          dispatch(getUserData(res.data));
-        })
-        .catch((err) => console.log(err));
-
-      await axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}api/users`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          dispatch(getUsersData(res.data));
-        })
-        .catch((err) => console.log(err));
-
-      await axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}api/posts`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          dispatch(getPostsData(res.data));
-        })
-        .catch((err) => console.log(err));
-
-      await axios({
-        method: "get",
-        url: `${process.env.REACT_APP_API_URL}api/comments`,
-        withCredentials: true,
-      })
-        .then((res) => {
-          dispatch(getCommentsData(res.data));
-        })
-        .catch((err) => console.log(err));
-      setApi(true);
-    };
-    getInformations();
-  }, [dispatch, uid]);
-
-  const userData = useSelector((state) => state.user.user);
-  const usersData = useSelector((state) => state.users.users);
-  const postsData = useSelector((state) => state.posts.posts);
-  const commentsData = useSelector((state) => state.comments.comments);
 
   // Modification d'un post
 
@@ -169,7 +113,12 @@ function PostCard() {
     handleLikes();
   }
 
-  if (api === true) {
+  if (
+    userData !== null &&
+    usersData !== null &&
+    postsData !== null &&
+    commentsData !== null
+  ) {
     return (
       <>
         {postsData

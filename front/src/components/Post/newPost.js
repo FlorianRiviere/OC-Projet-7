@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData } from "../../feature/userSlice";
 import { UidContext } from "../AppContext";
 import { addPost } from "../../feature/postsSlice";
 
@@ -9,35 +8,13 @@ function NewPost() {
   const uid = useContext(UidContext);
 
   const dispatch = useDispatch();
-  const [loadingUser, setLoadingUser] = useState(true);
+  const userData = useSelector((state) => state.user.user);
   const [editPost, setEditPost] = useState(false);
   const [uploadImage, setUploadImage] = useState(false);
 
   const author = uid;
   const [picture, setPicture] = useState("");
   const [content, setContent] = useState("");
-
-  useEffect(() => {
-    if (loadingUser === true) {
-      const getUser = async () => {
-        await axios({
-          method: "get",
-          url: `${process.env.REACT_APP_API_URL}api/users/${uid}`,
-          withCredentials: true,
-        })
-          .then((res) => {
-            dispatch(getUserData(res.data));
-            setLoadingUser(false);
-          })
-          .catch((err) => console.log(err));
-      };
-      getUser();
-    } else {
-      return;
-    }
-  }, [dispatch, uid, loadingUser]);
-
-  const userData = useSelector((state) => state.user.user);
 
   const handlePost = (e) => {
     e.preventDefault();
@@ -67,7 +44,7 @@ function NewPost() {
     }
   };
 
-  if (loadingUser === false) {
+  if (userData !== null) {
     return (
       <>
         {editPost === false && (
