@@ -13,21 +13,30 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (uid == null) {
-      const fetchToken = async () => {
-        await axios({
+    const auth = localStorage.getItem("auth");
+    console.log(auth);
+
+    if (auth == null) {
+      const fetchToken = () => {
+        axios({
           method: "get",
           url: `${process.env.REACT_APP_API_URL}jwtid`,
           withCredentials: true,
         })
           .then((res) => {
-            setUid(res.data._id);
             console.log(res.data._id);
+            setUid(res.data._id);
+            localStorage.setItem("auth", res.data._id);
           })
           .catch((err) => console.log("No token", err));
       };
       fetchToken();
     }
+
+    if (uid === null && auth) {
+      setUid(auth);
+    }
+
     if (uid) {
       const getUser = async () => {
         await axios({

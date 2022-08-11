@@ -20,8 +20,8 @@ function LoginForm() {
       },
     })
       .then((res) => {
-        window.location = "/";
         document.cookie = "token=" + res.data.token;
+        window.location.reload();
       })
       .catch((err) => {
         emailError.innerHTML("err.res.data.errors.email");

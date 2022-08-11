@@ -17,8 +17,9 @@ function Logout() {
       withCredentials: true,
     })
       .then(() => {
+        localStorage.clear();
         removeCookie("jwt");
-        window.location = "/";
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
