@@ -36,6 +36,19 @@ function App() {
       setUid(auth);
     }
 
+    const getUsers = async () => {
+      await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/users`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          dispatch(getUsersData(res.data));
+        })
+        .catch((err) => console.log(err));
+    };
+    getUsers();
+
     if (uid) {
       const getUser = async () => {
         await axios({
@@ -45,17 +58,6 @@ function App() {
         })
           .then((res) => {
             dispatch(getUserData(res.data));
-          })
-          .catch((err) => console.log(err));
-      };
-      const getUsers = async () => {
-        await axios({
-          method: "get",
-          url: `${process.env.REACT_APP_API_URL}api/users`,
-          withCredentials: true,
-        })
-          .then((res) => {
-            dispatch(getUsersData(res.data));
           })
           .catch((err) => console.log(err));
       };
@@ -82,7 +84,6 @@ function App() {
           .catch((err) => console.log(err));
       };
       getUser();
-      getUsers();
       getPosts();
       getComments();
     }

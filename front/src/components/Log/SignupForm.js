@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { options } from "../departments";
+import { useSelector } from "react-redux";
 
 function SignupForm() {
   const [lastName, setLastName] = useState("");
@@ -10,18 +11,23 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const usersData = useSelector((state) => state.users.users);
+  const userEmail = usersData.map((user) => user.email);
+
+  const passwordError = document.querySelector("#password-error");
+  const error = document.querySelector("#error");
+
   const handleRegister = (e) => {
     e.preventDefault();
 
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
-    const confirmPasswordError = document.querySelector(
-      ".confirm-password.error"
-    );
-
+    if (error) {
+      error.innerHTML = "";
+    }
+    if (passwordError) {
+      passwordError.innerHTML = "";
+    }
     if (password !== confirmPassword) {
-      confirmPasswordError.innerHTML =
-        "Les mots de passe ne sont pas identiques";
+      passwordError.innerHTML = "Les mots de passe ne sont pas identiques";
     } else {
       axios({
         method: "post",
@@ -34,15 +40,31 @@ function SignupForm() {
           password,
         },
       })
-        .then((res) => {
-          if (res.data.errors) {
-            emailError.innerHTML = res.data.errors.email;
-            passwordError.innerHTML = res.data.errors.password;
-          }
+        .then(() => {
           alert("Enregistrement terminé, vous pouvez vous connecter");
           window.location.reload(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          formError();
+        });
+    }
+  };
+
+  const formError = () => {
+    if (
+      lastName === "" ||
+      firstName === "" ||
+      department === "" ||
+      email === "" ||
+      password === ""
+    ) {
+      error.innerHTML = "Tous les champs sont obligatoires";
+    } else if (userEmail.includes(email)) {
+      error.innerHTML = "Adresse email déjà utilisée";
+    } else {
+      passwordError.innerHTML =
+        "Les mot de passe doit contenir au minimum 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial et il ne doit pas contenir d'espaces ou plus de 100 caractères  ";
     }
   };
 
@@ -50,6 +72,7 @@ function SignupForm() {
     <div className="logForm">
       <h1>Inscription</h1>
       <form action="" onSubmit={handleRegister} id="sign-up-form">
+        <div id="error" className="error"></div>
         <div className="input-bloc">
           <label htmlFor="lastName">Nom :</label>
           <input
@@ -98,7 +121,6 @@ function SignupForm() {
             value={email}
           />
         </div>
-        <div className="email error"></div>
         <br />
         <div className="input-bloc">
           <label htmlFor="password">Mot de passe :</label>
@@ -110,7 +132,6 @@ function SignupForm() {
             value={password}
           />
         </div>
-        <div className="password error"></div>
         <br />
         <div className="input-bloc">
           <label htmlFor="conf-password">Confirmer mot de passe :</label>
@@ -122,7 +143,7 @@ function SignupForm() {
             value={confirmPassword}
           />
         </div>
-        <div className="confirm-password error"></div>
+        <div id="password-error" className="error"></div>
         <br />
         <div className="log-btn-bloc">
           <input className="log-btn" type="submit" value="S'inscrire" />

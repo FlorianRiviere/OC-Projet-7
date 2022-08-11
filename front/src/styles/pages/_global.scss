@@ -50,6 +50,13 @@ button {
   cursor: pointer;
 }
 
+.error {
+  color: red;
+  font-weight: 600;
+  text-align: end;
+  padding: 10px 10px 10px 10px;
+}
+
 @include tablet-portrait {
   html {
     height: 100%;

@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const usersData = useSelector((state) => state.users.users);
+  const userEmail = usersData.map((user) => user.email);
+
+  const emailError = document.querySelector("#email-error");
+  const passwordError = document.querySelector("#password-error");
+
   const handleLogin = (e) => {
     e.preventDefault();
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
+
+    emailError.innerHTML = "";
+    passwordError.innerHTML = "";
 
     axios({
       method: "post",
@@ -24,16 +32,26 @@ function LoginForm() {
         window.location.reload();
       })
       .catch((err) => {
-        emailError.innerHTML("err.res.data.errors.email");
-        passwordError.innerHTML("err.res.data.errors.pasword");
         console.log(err);
+        formError();
       });
+  };
+
+  const formError = () => {
+    if (email === "" || password === "") {
+      emailError.innerHTML = "Veuillez renseigner les champs";
+    } else if (!userEmail.includes(email)) {
+      emailError.innerHTML = "Adresse email introuvable";
+    } else {
+      passwordError.innerHTML = "Mauvais mot de passe";
+    }
   };
 
   return (
     <div className="logForm">
       <h1>Connexion</h1>
       <form action="" onSubmit={handleLogin} id="log-in-form">
+        <div id="email-error" className="error"></div>
         <div className="input-bloc">
           <label htmlFor="email">Email :</label>
           <input
@@ -44,7 +62,6 @@ function LoginForm() {
             value={email}
           />
         </div>
-        <div className="email error"></div>
         <br />
         <div className="input-bloc">
           <label htmlFor="password">Mot de passe :</label>
@@ -56,7 +73,7 @@ function LoginForm() {
             value={password}
           />
         </div>
-        <div className="password error"></div>
+        <div id="password-error" className="error"></div>
         <br />
         <div className="log-btn-bloc">
           <input className="log-btn" type="submit" value="Se connecter" />
