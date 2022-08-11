@@ -14,7 +14,6 @@ function App() {
 
   useEffect(() => {
     const auth = localStorage.getItem("auth");
-    console.log(auth);
 
     if (auth == null) {
       const fetchToken = () => {
