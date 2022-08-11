@@ -1,6 +1,6 @@
 import React from "react";
-import NewPost from "./newPost";
-import PostCard from "./postCard";
+import NewPost from "./NewPost/newPost";
+import PostCard from "./PostCard/PostCard";
 
 function Thread() {
   return (

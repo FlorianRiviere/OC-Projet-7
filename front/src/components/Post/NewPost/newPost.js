@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UidContext } from "../AppContext";
-import { addPost } from "../../feature/postsSlice";
+import { UidContext } from "../../AppContext";
+import { addPost } from "../../../feature/postsSlice";
+import NewPostUserCard from "./NewPostUserCard";
+import NewPostContent from "./NewPostContent";
 
 function NewPost() {
   const uid = useContext(UidContext);
@@ -10,7 +12,6 @@ function NewPost() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
   const [editPost, setEditPost] = useState(false);
-  const [uploadImage, setUploadImage] = useState(false);
 
   const author = uid;
   const [picture, setPicture] = useState("");
@@ -64,58 +65,9 @@ function NewPost() {
         )}
         {editPost && (
           <div className="post-card">
-            <div className="user">
-              <div className="user-picture">
-                <img
-                  src={userData.picture}
-                  alt="Pastille de l'utilisateur"
-                ></img>
-              </div>
-              <div className="user-informations">
-                <div className="name">
-                  {userData.firstName} {userData.lastName}
-                </div>
-                <div className="department">Service {userData.department}</div>
-              </div>
-            </div>
-            <div className="post-text">
-              <form id="new-post">
-                <label htmlFor="content"></label>
-                <textarea
-                  name="content"
-                  id="content"
-                  onChange={(e) => setContent(e.target.value)}
-                ></textarea>
-                {uploadImage === false && (
-                  <button
-                    className="edit-post-btn"
-                    onClick={() => setUploadImage(true)}
-                  >
-                    Ajouter une image
-                  </button>
-                )}
-                {uploadImage === true && (
-                  <>
-                    <label htmlFor="file"></label>
-                    <input
-                      type="file"
-                      id="file"
-                      className="choose-image"
-                      accept=".jpg, .jpeg, .png"
-                      onChange={(e) => setPicture(e.target.files[0])}
-                    />
-                    <div className="edit-post-btn-bloc">
-                      <button
-                        className="edit-post-btn"
-                        onClick={() => setUploadImage(false)}
-                      >
-                        Annuler
-                      </button>
-                    </div>
-                  </>
-                )}
-              </form>
-            </div>
+            <NewPostUserCard />
+            <NewPostContent setPicture={setPicture} setContent={setContent} />
+
             <div className="submit-post-btn-bloc">
               <input
                 form="new-post"
