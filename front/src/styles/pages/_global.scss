@@ -57,6 +57,17 @@ button {
   padding: 10px 10px 10px 10px;
 }
 
+@media screen and (min-width: 500px) {
+  .error {
+    padding-right: 40px;
+  }
+}
+@media screen and (min-width: 650px) {
+  .error {
+    padding-right: 90px;
+  }
+}
+
 @include tablet-portrait {
   html {
     height: 100%;

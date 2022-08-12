@@ -15,8 +15,12 @@ function LoginForm() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    emailError.innerHTML = "";
-    passwordError.innerHTML = "";
+    if (emailError) {
+      emailError.innerHTML = "";
+    }
+    if (passwordError) {
+      passwordError.innerHTML = "";
+    }
 
     axios({
       method: "post",
