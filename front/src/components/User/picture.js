@@ -1,13 +1,12 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { UidContext } from "../AppContext";
-import { updateUserInformations } from "../../feature/userSlice";
+import { updateUserPicture } from "../../feature/userSlice";
 
-function Picture() {
+function Picture({ paramsId, user }) {
   const uid = useContext(UidContext);
   const dispatch = useDispatch;
-  const userData = useSelector((state) => state.user.user);
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
   const [picture, setPicture] = useState(null);
 
@@ -27,7 +26,7 @@ function Picture() {
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(() => {
-        dispatch(updateUserInformations);
+        // dispatch(updateUserPicture(data));
         alert("Image modifiée");
         setIsUpdatingImage(false);
         // window.location.reload();
@@ -39,10 +38,10 @@ function Picture() {
     <section className="image">
       <h2>Image de profil</h2>
       <div className="img-bloc">
-        <img src={userData.picture} alt="de profil"></img>
+        <img src={user.picture} alt="de profil"></img>
       </div>
       <div className="update-image">
-        {isUpdatingImage === false && (
+        {user._id === uid && isUpdatingImage === false && (
           <div className="image-btn-bloc">
             <button
               className="image-btn"
@@ -52,7 +51,7 @@ function Picture() {
             </button>
           </div>
         )}
-        {isUpdatingImage && (
+        {user._id === uid && isUpdatingImage && (
           <>
             <div className="image-btn-bloc">
               <input

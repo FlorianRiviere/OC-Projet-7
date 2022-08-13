@@ -7,7 +7,6 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const usersData = useSelector((state) => state.users.users);
-  const userEmail = usersData.map((user) => user.email);
 
   const emailError = document.querySelector("#email-error");
   const passwordError = document.querySelector("#password-error");
@@ -42,6 +41,8 @@ function LoginForm() {
   };
 
   const formError = () => {
+    const userEmail = usersData.map((user) => user.email);
+
     if (email === "" || password === "") {
       emailError.innerHTML = "Veuillez renseigner les champs";
     } else if (!userEmail.includes(email)) {

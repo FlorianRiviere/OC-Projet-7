@@ -1,13 +1,9 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 import { UidContext } from "../AppContext";
-import { updateUserInformations } from "../../feature/userSlice";
 
 function UpdatePassword({ setIsUpdatingPassword }) {
   const uid = useContext(UidContext);
-  const dispatch = useDispatch;
-
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -28,7 +24,6 @@ function UpdatePassword({ setIsUpdatingPassword }) {
         },
       })
         .then(() => {
-          dispatch(updateUserInformations);
           alert("Mot de passe modifié");
           window.location.reload();
         })

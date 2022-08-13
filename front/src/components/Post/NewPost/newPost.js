@@ -3,8 +3,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { UidContext } from "../../AppContext";
 import { addPost } from "../../../feature/postsSlice";
-import NewPostUserCard from "./NewPostUserCard";
-import NewPostContent from "./NewPostContent";
+import NewPostUserCard from "./newPostUserCard";
+import NewPostContent from "./newPostContent";
 
 function NewPost() {
   const uid = useContext(UidContext);
@@ -21,6 +21,21 @@ function NewPost() {
     e.preventDefault();
     if (content === "") {
       alert("Publication vide");
+    } else if (picture === "") {
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}api/posts`,
+        withCredentials: true,
+        data: { author, content },
+      })
+        .then((res) => {
+          // dispatch(addPost);
+          console.log(res.data);
+          alert("Publication créée");
+          // setUploadImage(false);
+          // window.location.reload();
+        })
+        .catch((err) => console.log(err));
     } else {
       const data = new FormData();
 
@@ -35,11 +50,12 @@ function NewPost() {
         data: data,
         headers: { "Content-Type": "multipart/form-data" },
       })
-        .then(() => {
-          dispatch(addPost);
+        .then((res) => {
+          // dispatch(addPost);
+          console.log(res.data);
           alert("Publication créée");
           // setUploadImage(false);
-          window.location.reload();
+          // window.location.reload();
         })
         .catch((err) => console.log(err));
     }

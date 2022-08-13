@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Logout from "./Log/Logout";
 import House from "../assets/icons/house-solid.svg";
 import Group from "../assets/icons/user-group-solid.svg";
+import { UidContext } from "./AppContext";
 
 function Navbar() {
+  const uid = useContext(UidContext);
   const userData = useSelector((state) => state.user.user);
 
   if (userData !== null) {
@@ -13,7 +15,7 @@ function Navbar() {
       <>
         <nav>
           <div className="navbar">
-            <NavLink className="navlink" to="/profil">
+            <NavLink className="navlink" to={`/profil/${uid}`}>
               <img
                 src={userData.picture}
                 alt="Icone d'une maison avec une personne dedans"

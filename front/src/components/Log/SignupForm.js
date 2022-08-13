@@ -12,7 +12,6 @@ function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const usersData = useSelector((state) => state.users.users);
-  const userEmail = usersData.map((user) => user.email);
 
   const passwordError = document.querySelector("#password-error");
   const error = document.querySelector("#error");
@@ -52,6 +51,8 @@ function SignupForm() {
   };
 
   const formError = () => {
+    const userEmail = usersData.map((user) => user.email);
+
     if (
       lastName === "" ||
       firstName === "" ||
