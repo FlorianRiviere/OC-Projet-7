@@ -10,6 +10,7 @@ import UserPosts from "./userPosts";
 import PersonalInfos from "./personal-infos";
 import UpdateInfos from "./update-infos";
 import UpdatePassword from "./update-password";
+import axios from "axios";
 
 const UserProfil = () => {
   const uid = useContext(UidContext);
@@ -20,6 +21,34 @@ const UserProfil = () => {
 
   const [isUpdatingInformations, setIsUpdatingInformations] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
+  const [sendFollow, setSendFollow] = useState(false);
+  const [follow, setFollow] = useState("");
+  const [userToFollow, setUserToFollow] = useState("");
+
+  if (sendFollow === true) {
+    const handleFollow = async () => {
+      await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}api/users/follow`,
+        withCredentials: true,
+        data: {
+          userId: uid,
+          userToFollow,
+          follow,
+        },
+      })
+        .then(() => {
+          // dispatch(updateUserInformations);
+          setFollow("");
+          setUserToFollow("");
+          setSendFollow(false);
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    };
+    handleFollow();
+  }
 
   // Modifications bio
 
@@ -37,7 +66,36 @@ const UserProfil = () => {
                         Profil de {user.firstName + " " + user.lastName}
                       </h1>
                       <div className="profil">
+                        {user._id !== uid && (
+                          <div className="follow-btn-bloc">
+                            {!userData.following.includes(user._id) && (
+                              <button
+                                onClick={() => {
+                                  setFollow(1);
+                                  setUserToFollow(user._id);
+                                  setSendFollow(true);
+                                }}
+                              >
+                                Suivre
+                              </button>
+                            )}
+
+                            {userData.following.includes(user._id) && (
+                              <button
+                                className="followed-btn"
+                                onClick={() => {
+                                  setFollow(0);
+                                  setUserToFollow(user._id);
+                                  setSendFollow(true);
+                                }}
+                              >
+                                Suivi
+                              </button>
+                            )}
+                          </div>
+                        )}
                         <Picture user={user} />
+
                         <PersonalInfos
                           setIsUpdatingPassword={setIsUpdatingPassword}
                           setIsUpdatingInformations={setIsUpdatingInformations}

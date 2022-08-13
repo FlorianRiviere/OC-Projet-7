@@ -3,6 +3,28 @@
   flex-wrap: wrap;
   gap: 10px;
 
+  .follow-btn-bloc {
+    width: 100%;
+    padding: 20px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      width: 100px;
+      height: 30px;
+      border-radius: 10px 10px 10px 10px;
+      border: none;
+      box-shadow: 1px 1px 5px #967b7b;
+      font-weight: 600;
+      font-size: 1em;
+    }
+    .followed-btn {
+      background-color: $secondary-color;
+      box-shadow: inset 1px 1px 5px #967b7b;
+    }
+  }
+
   .image {
     width: 100%;
     display: flex;
@@ -175,6 +197,7 @@
   .user-posts {
     width: 100%;
     display: flex;
+    align-items: center;
     flex-direction: column;
     padding: 1% 1% 1% 1%;
     border-radius: 10px 10px 10px 10px;
@@ -187,10 +210,45 @@
     }
 
     .posts {
+      max-width: 700px;
       display: flex;
-
       flex-wrap: wrap;
       gap: 50px;
+
+      .author-card {
+        border-bottom: solid 1px $primary-color;
+        padding: 10px 10px 10px;
+        display: flex;
+        gap: 10px;
+
+        .author-image {
+          width: 70px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px 10px 10px 10px;
+          }
+        }
+
+        .author-informations {
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+
+          .name {
+            font-weight: 700;
+          }
+
+          .department {
+            font-size: smaller;
+          }
+        }
+      }
     }
   }
 }

@@ -13,7 +13,7 @@ function PostUserCard({ post }) {
   const [userToFollow, setUserToFollow] = useState("");
 
   if (sendFollow === true) {
-    const handleLikes = async () => {
+    const handleFollow = async () => {
       await axios({
         method: "post",
         url: `${process.env.REACT_APP_API_URL}api/users/follow`,
@@ -33,7 +33,7 @@ function PostUserCard({ post }) {
         })
         .catch((err) => console.log(err));
     };
-    handleLikes();
+    handleFollow();
   }
 
   if (usersData !== null) {
