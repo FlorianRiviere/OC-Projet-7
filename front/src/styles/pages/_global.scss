@@ -10,10 +10,6 @@ body {
   height: 100%;
 }
 
-div {
-  width: 100%;
-}
-
 .main-page {
   height: 100%;
   padding-bottom: 70px;
@@ -46,6 +42,8 @@ h2 {
 
 button {
   font-family: "lato";
+  font-size: 1em;
+  font-weight: 500;
   color: $tertiary-color;
   cursor: pointer;
 }

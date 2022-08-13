@@ -9,10 +9,14 @@ import Home from "../../pages/Home";
 import Profil from "../../pages/Profil";
 import Group from "../../pages/Group";
 import { UidContext } from "../AppContext";
+import { useSelector } from "react-redux";
 
 function Index() {
   const uid = useContext(UidContext);
-  if (uid) {
+
+  const userData = useSelector((state) => state.user.user);
+
+  if (userData !== null) {
     return (
       <>
         <Router>

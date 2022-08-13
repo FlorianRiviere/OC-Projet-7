@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector } from "react-redux";
+import { UidContext } from "../AppContext";
 import FollowButton from "./followButton";
 
 function Follow({ user }) {
+  const uid = useContext(UidContext);
+
   const usersData = useSelector((state) => state.users.users);
 
   return (
@@ -31,8 +34,7 @@ function Follow({ user }) {
                         </div>
                       </div>
                     </a>
-
-                    <FollowButton user={user} users={users} />
+                    {users._id !== uid && <FollowButton users={users} />}
                   </div>
                 )}
               </div>
@@ -66,7 +68,9 @@ function Follow({ user }) {
                       </div>
                     </a>
 
-                    <FollowButton user={user} users={users} />
+                    {users._id !== uid && (
+                      <FollowButton user={user} users={users} />
+                    )}
                   </div>
                 )}
               </div>

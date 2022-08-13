@@ -158,7 +158,7 @@
   .followers {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     padding: 10px 10px 20px 10px;
     border-radius: 10px 10px 10px 10px;
     background-color: $secondary-color;
@@ -169,66 +169,80 @@
       margin: 10px 0 20px 0;
     }
 
-    .author-card {
+    .following-bloc,
+    .followers-bloc {
       width: 100%;
-      background-color: #fff0f0;
-      border-radius: 10px 10px 10px 10px;
-      box-shadow: 1px 1px 10px #967b7b;
       display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
 
-      a {
-        width: 70%;
-        padding: 10px 0 10px 10px;
-        color: $tertiary-color;
-        display: flex;
-        gap: 10px;
+      div {
+        width: 100%;
 
-        .author-image {
-          width: 70px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px 10px 10px 10px;
-          }
-        }
-
-        .author-informations {
-          width: 80%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-
-          .name {
-            font-weight: 700;
-          }
-
-          .department {
-            font-size: smaller;
-          }
-        }
-      }
-
-      .follow-btn-bloc {
-        width: 30%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        button {
-          width: 80px;
-          height: 30px;
+        .author-card {
+          width: 100%;
+          background-color: #fff0f0;
           border-radius: 10px 10px 10px 10px;
-          border: none;
-          box-shadow: 1px 1px 5px #967b7b;
-          font-weight: 600;
-        }
-        .followed-btn {
-          background-color: $secondary-color;
-          box-shadow: inset 1px 1px 5px #967b7b;
+          box-shadow: 1px 1px 10px #967b7b;
+          display: flex;
+
+          a {
+            width: 70%;
+            padding: 5px 0 5px 5px;
+            color: $tertiary-color;
+            display: flex;
+            gap: 10px;
+
+            .author-image {
+              width: 70px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              img {
+                width: 50px;
+                height: 50px;
+                border-radius: 10px 10px 10px 10px;
+              }
+            }
+
+            .author-informations {
+              width: 70%;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+
+              .name {
+                font-weight: 700;
+              }
+
+              .department {
+                font-size: smaller;
+              }
+            }
+          }
+
+          .follow-btn-bloc {
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            button {
+              width: 80px;
+              height: 30px;
+              border-radius: 10px 10px 10px 10px;
+              border: none;
+              box-shadow: 1px 1px 5px #967b7b;
+              font-family: "lato";
+              font-size: 1em;
+              font-weight: 500;
+            }
+            .followed-btn {
+              background-color: $secondary-color;
+              box-shadow: inset 1px 1px 5px #967b7b;
+            }
+          }
         }
       }
     }
@@ -267,7 +281,7 @@
 
       .author-card {
         border-bottom: solid 1px $primary-color;
-        padding: 10px 10px 10px;
+        padding: 5px 5px 5px;
         display: flex;
         gap: 10px;
 
@@ -285,7 +299,7 @@
         }
 
         .author-informations {
-          width: 80%;
+          width: 70%;
           display: flex;
           flex-direction: column;
           justify-content: space-around;

@@ -1,4 +1,5 @@
 .new-post {
+  width: 100%;
   max-width: 700px;
 }
 
@@ -29,8 +30,9 @@
       height: 30px;
       border: none;
       border-radius: 20px 20px 20px 20px;
-      font-weight: 600;
-      font-size: smaller;
+      font-family: "lato";
+      font-size: 1em;
+      font-weight: 500;
       background-color: #fff0f0;
       box-shadow: 1px 1px 10px #967b7b;
     }
@@ -116,8 +118,9 @@
   height: 20px;
   border: none;
   border-radius: 20px 20px 20px 20px;
+  font-family: "lato";
+  font-size: 1em;
   font-weight: 500;
-  font-size: smaller;
   background-color: #fff0f0;
   box-shadow: 1px 1px 10px #967b7b;
 }
@@ -136,8 +139,9 @@
   width: 145px;
   border: none;
   border-radius: 20px 20px 20px 20px;
-  font-weight: 500;
   font-family: "lato";
+  font-size: 1em;
+  font-weight: 500;
   color: $tertiary-color;
   font-size: smaller;
   background-color: #fff0f0;

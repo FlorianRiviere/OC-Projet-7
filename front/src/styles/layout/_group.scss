@@ -1,0 +1,115 @@
+.department-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .selection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    select {
+      width: 220px;
+      height: 30px;
+      padding-left: 10px;
+      border-radius: 10px 10px 10px 10px;
+      background-color: #fff0f0;
+      font-family: "lato";
+      font-weight: 600;
+      font-size: 1em;
+    }
+  }
+
+  section {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 30px;
+    padding: 10px 10px 20px 10px;
+    background-color: $secondary-color;
+    border-radius: 10px 10px 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    h2 {
+      width: 100%;
+      margin: 10px 0 20px 0;
+      text-align: center;
+    }
+
+    .members {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .author-card {
+        width: 100%;
+        min-width: 290px;
+        max-width: 320px;
+        background-color: #fff0f0;
+        border-radius: 10px 10px 10px 10px;
+        box-shadow: 1px 1px 10px #967b7b;
+        display: flex;
+
+        a {
+          width: 70%;
+          padding: 5px 0 5px 5px;
+          color: $tertiary-color;
+          display: flex;
+          gap: 10px;
+
+          .author-image {
+            width: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              width: 50px;
+              height: 50px;
+              border-radius: 10px 10px 10px 10px;
+            }
+          }
+
+          .author-informations {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            .name {
+              font-weight: 700;
+            }
+
+            .department {
+              font-size: smaller;
+            }
+          }
+        }
+
+        .follow-btn-bloc {
+          width: 30%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          button {
+            width: 80px;
+            height: 30px;
+            border-radius: 10px 10px 10px 10px;
+            border: none;
+            box-shadow: 1px 1px 5px #967b7b;
+            font-family: "lato";
+            font-size: 1em;
+            font-weight: 500;
+          }
+          .followed-btn {
+            background-color: $secondary-color;
+            box-shadow: inset 1px 1px 5px #967b7b;
+          }
+        }
+      }
+    }
+  }
+}

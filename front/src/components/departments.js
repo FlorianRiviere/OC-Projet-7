@@ -1,6 +1,7 @@
 export const options = [
   {
-    label: "Sélectionnez votre service",
+    label: "Sélectionnez un service",
+    value: "",
   },
   {
     label: "Achat",

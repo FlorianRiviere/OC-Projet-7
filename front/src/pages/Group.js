@@ -3,6 +3,7 @@ import { UidContext } from "../components/AppContext";
 import Log from "../components/Log/Log";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
+import Department from "../components/Group/Department";
 
 function Group() {
   const uid = useContext(UidContext);
@@ -14,7 +15,7 @@ function Group() {
         <>
           <div className="main-page">
             <Navbar />
-            <div>Group !</div>
+            <Department />
           </div>
         </>
       ) : (

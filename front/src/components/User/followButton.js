@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { UidContext } from "../AppContext";
 
-function FollowButton({ user, users }) {
+function FollowButton({ users }) {
   const uid = useContext(UidContext);
+
+  const userData = useSelector((state) => state.user.user);
 
   const [sendFollow, setSendFollow] = useState(false);
   const [follow, setFollow] = useState("");
@@ -35,34 +38,32 @@ function FollowButton({ user, users }) {
 
   return (
     <>
-      {user._id === uid && (
-        <div className="follow-btn-bloc">
-          {!user.following.includes(users._id) && (
-            <button
-              onClick={() => {
-                setFollow(1);
-                setUserToFollow(users._id);
-                setSendFollow(true);
-              }}
-            >
-              S'abonner
-            </button>
-          )}
+      <div className="follow-btn-bloc">
+        {!userData.following.includes(users._id) && (
+          <button
+            onClick={() => {
+              setFollow(1);
+              setUserToFollow(users._id);
+              setSendFollow(true);
+            }}
+          >
+            S'abonner
+          </button>
+        )}
 
-          {user.following.includes(users._id) && (
-            <button
-              className="followed-btn"
-              onClick={() => {
-                setFollow(0);
-                setUserToFollow(users._id);
-                setSendFollow(true);
-              }}
-            >
-              Abonné
-            </button>
-          )}
-        </div>
-      )}
+        {userData.following.includes(users._id) && (
+          <button
+            className="followed-btn"
+            onClick={() => {
+              setFollow(0);
+              setUserToFollow(users._id);
+              setSendFollow(true);
+            }}
+          >
+            Abonné
+          </button>
+        )}
+      </div>
     </>
   );
 }
