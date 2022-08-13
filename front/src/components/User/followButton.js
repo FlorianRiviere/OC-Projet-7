@@ -45,7 +45,7 @@ function FollowButton({ user, users }) {
                 setSendFollow(true);
               }}
             >
-              Suivre
+              S'abonner
             </button>
           )}
 
@@ -58,7 +58,7 @@ function FollowButton({ user, users }) {
                 setSendFollow(true);
               }}
             >
-              Suivi
+              Abonné
             </button>
           )}
         </div>

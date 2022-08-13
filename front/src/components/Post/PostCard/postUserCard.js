@@ -68,7 +68,7 @@ function PostUserCard({ post }) {
                           setSendFollow(true);
                         }}
                       >
-                        Suivre
+                        S'abonner
                       </button>
                     )}
 
@@ -81,7 +81,7 @@ function PostUserCard({ post }) {
                           setSendFollow(true);
                         }}
                       >
-                        Suivi
+                        Abonné
                       </button>
                     )}
                   </div>

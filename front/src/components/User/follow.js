@@ -8,7 +8,7 @@ function Follow({ user }) {
   return (
     <>
       <section className="following">
-        <h2>Personnes suivis</h2>
+        <h2>Abonnements</h2>
         <div className="following-bloc">
           {usersData.map((users) => {
             return (
@@ -42,7 +42,7 @@ function Follow({ user }) {
       </section>
 
       <section className="followers">
-        <h2>Suivi par</h2>
+        <h2>Abonnés</h2>
         <div className="followers-bloc">
           {usersData.map((users) => {
             return (

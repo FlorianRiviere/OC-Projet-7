@@ -76,7 +76,7 @@ const UserProfil = () => {
                                   setSendFollow(true);
                                 }}
                               >
-                                Suivre
+                                S'abonner
                               </button>
                             )}
 
@@ -89,7 +89,7 @@ const UserProfil = () => {
                                   setSendFollow(true);
                                 }}
                               >
-                                Suivi
+                                Abonné
                               </button>
                             )}
                           </div>
