@@ -8,8 +8,8 @@ article {
     display: flex;
 
     a {
-      width: 100%;
-      padding: 10px 10px 10px;
+      width: 70%;
+      padding: 10px 0 10px;
       color: $tertiary-color;
       display: flex;
       gap: 10px;
@@ -28,7 +28,7 @@ article {
       }
 
       .author-informations {
-        width: 50%;
+        width: 80%;
         display: flex;
         flex-direction: column;
         justify-content: space-around;

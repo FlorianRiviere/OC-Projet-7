@@ -22,6 +22,6 @@ router.delete("/:id", auth.checkUser, userCtrl.deleteUser);
 
 // Follow
 
-router.post("/:id/follow", auth.checkUser, userCtrl.follow);
+router.post("/follow", auth.checkUser, userCtrl.follow);
 
 module.exports = router;

@@ -23,7 +23,7 @@ const UserProfil = () => {
 
   // Modifications bio
 
-  if (userData !== null) {
+  if (userData !== null && usersData !== null) {
     return (
       <>
         {usersData.map(

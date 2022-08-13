@@ -219,41 +219,44 @@ exports.deleteUser = (req, res, next) => {
 exports.follow = (req, res, next) => {
   const follow = req.body.follow;
 
-  User.findOne({ _id: req.params.id })
-    .then((user) => {
-      if (user._id != req.auth.userId) {
-        return res.status(401).json({ message: "non autorisé !" });
-      }
-      switch (follow) {
-        case 1:
-          if (!user.following.includes(req.body.idToFollow)) {
-            User.updateOne(
-              { _id: req.params.id },
-              { $push: { following: req.body.idToFollow } }
-            ),
-              ({ _id: req.body.idToFollow },
-              { $push: { followers: req.auth.userId } })
-                .then(() => {
-                  res.status(200).json({ message: "Sauce liked!" });
-                })
-                .catch((error) => res.status(400).json({ error }));
-          }
-          break;
-        case 0:
-          if (user.following.includes(req.body.idToUnfollow)) {
-            User.updateOne(
-              { _id: req.params.id },
-              { $pull: { following: req.body.idToUnfollow } }
-            ),
-              ({ _id: req.body.idToUnfollow },
-              { $pull: { followers: req.auth.userId } })
-                .then(() => {
-                  res.status(200).json({ message: "Sauce liked!" });
-                })
-                .catch((error) => res.status(400).json({ error }));
-          }
-          break;
-      }
-    })
-    .catch((error) => res.status(500).json(error));
+  switch (follow) {
+    case 1:
+      User.updateOne(
+        { _id: req.body.userId },
+        { $push: { following: req.body.userToFollow } }
+      )
+        .then(() => next)
+        .catch((error) => {
+          return res.status(400).json({ error });
+        });
+      User.updateOne(
+        { _id: req.body.userToFollow },
+        { $push: { followers: req.body.userId } }
+      )
+        .then(() => {
+          res.status(200).json({ message: "User followed!" });
+        })
+        .catch((error) => res.status(400).json({ error }));
+
+      break;
+    case 0:
+      User.updateOne(
+        { _id: req.body.userId },
+        { $pull: { following: req.body.userToFollow } }
+      )
+        .then(() => next)
+        .catch((error) => {
+          return res.status(400).json({ error });
+        });
+      User.updateOne(
+        { _id: req.body.userToFollow },
+        { $pull: { followers: req.body.userId } }
+      )
+        .then(() => {
+          res.status(200).json({ message: "User unfollowed!" });
+        })
+        .catch((error) => res.status(400).json({ error }));
+
+      break;
+  }
 };
