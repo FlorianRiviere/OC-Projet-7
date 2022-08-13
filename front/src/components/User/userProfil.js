@@ -7,9 +7,9 @@ import Picture from "./picture";
 import Biography from "./biography";
 import Follow from "./follow";
 import UserPosts from "./userPosts";
-import PersonalInfos from "./personal-infos";
-import UpdateInfos from "./update-infos";
-import UpdatePassword from "./update-password";
+import PersonalInfos from "./personalInfos";
+import UpdateInfos from "./updateInfos";
+import UpdatePassword from "./updatePassword";
 import axios from "axios";
 
 const UserProfil = () => {
@@ -103,7 +103,7 @@ const UserProfil = () => {
                         />
 
                         <Biography user={user} />
-                        <Follow />
+                        <Follow user={user} />
                         <UserPosts />
                       </div>
                     </>
