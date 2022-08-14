@@ -172,9 +172,10 @@
     .following-bloc,
     .followers-bloc {
       width: 100%;
+      height: auto;
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 10px;
 
       div {
         width: 100%;
