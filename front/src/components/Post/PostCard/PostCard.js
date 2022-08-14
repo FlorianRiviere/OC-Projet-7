@@ -5,7 +5,8 @@ import PostUpdateContent from "./postUpdateContent";
 import PostUpdateInteraction from "./postUpdateInteraction";
 import PostRemove from "./postRemove";
 import PostLike from "./postLike";
-import PostComments from "./postComments";
+import PostComments from "../../Comment/postComments";
+import NewComment from "../../Comment/newComment";
 
 function PostCard() {
   const userData = useSelector((state) => state.user.user);
@@ -13,6 +14,7 @@ function PostCard() {
   const commentsData = useSelector((state) => state.comments.comments);
 
   const [unrolledComments, setUnrolledComments] = useState(false);
+  const [newComment, setNewComment] = useState(false);
 
   const [updatePost, setUpdatePost] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
@@ -91,20 +93,66 @@ function PostCard() {
                         <p>Pas de commentaires</p>
                       </div>
                     )}
-                    {commentsData && unrolledComments === false && (
-                      <button onClick={() => setUnrolledComments(true)}>
-                        Afficher les commentaires
+                    {commentsData &&
+                      (unrolledComments === false || postId !== post._id) && (
+                        <button
+                          onClick={() => {
+                            setUnrolledComments(true);
+                            setPostId(post._id);
+                          }}
+                        >
+                          Afficher les commentaires
+                        </button>
+                      )}
+                    {commentsData &&
+                      unrolledComments === true &&
+                      postId === post._id && (
+                        <button
+                          onClick={() => {
+                            setUnrolledComments(false);
+                            setNewComment(false);
+                            setPostId("");
+                          }}
+                        >
+                          Masquer les commentaires
+                        </button>
+                      )}
+                    {(newComment === false || postId !== post._id) && (
+                      <button
+                        onClick={() => {
+                          setUnrolledComments(true);
+                          setNewComment(true);
+                          setPostId(post._id);
+                        }}
+                      >
+                        Ajouter un commentaire
                       </button>
                     )}
-                    {commentsData && unrolledComments === true && (
-                      <button onClick={() => setUnrolledComments(false)}>
-                        Masquer les commentaires
+                    {newComment === true && postId === post._id && (
+                      <button
+                        onClick={() => {
+                          setNewComment(false);
+                          setPostId("");
+                        }}
+                      >
+                        Annuler
                       </button>
                     )}
-                    <button>Ajouter un commentaire</button>
                   </div>
                 </div>
-                <PostComments unrolledComments={unrolledComments} />
+
+                <div className="comments">
+                  {newComment === true && postId === post._id && <NewComment />}
+                  {commentsData &&
+                    unrolledComments === true &&
+                    postId === post._id && (
+                      <PostComments
+                        unrolledComments={unrolledComments}
+                        post={post}
+                        postId={postId}
+                      />
+                    )}
+                </div>
               </article>
             );
           })}

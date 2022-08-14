@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import PostComments from "../Post/PostCard/postComments";
+import PostComments from "../Comment/postComments";
 import PostLike from "../Post/PostCard/postLike";
 import PostRemove from "../Post/PostCard/postRemove";
 import PostUpdateContent from "../Post/PostCard/postUpdateContent";
