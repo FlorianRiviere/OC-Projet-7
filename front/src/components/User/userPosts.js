@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import NewComment from "../Comment/newComment";
 import PostComments from "../Comment/postComments";
 import PostLike from "../Post/PostCard/postLike";
 import PostRemove from "../Post/PostCard/postRemove";
@@ -17,6 +18,7 @@ function UserPosts() {
   const commentsData = useSelector((state) => state.comments.comments);
 
   const [unrolledComments, setUnrolledComments] = useState(false);
+  const [newComment, setNewComment] = useState(false);
   const [updatePost, setUpdatePost] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
   const [postId, setPostId] = useState("");
@@ -97,25 +99,59 @@ function UserPosts() {
                         />
 
                         <div className="comment-interaction">
-                          {!commentsData && (
-                            <div className="about-comment">
-                              <p>Pas de commentaires</p>
-                            </div>
-                          )}
-                          {commentsData && unrolledComments === false && (
-                            <button onClick={() => setUnrolledComments(true)}>
+                          {(unrolledComments === false ||
+                            postId !== post._id) && (
+                            <button
+                              onClick={() => {
+                                setUnrolledComments(true);
+                                setPostId(post._id);
+                              }}
+                            >
                               Afficher les commentaires
                             </button>
                           )}
-                          {commentsData && unrolledComments === true && (
-                            <button onClick={() => setUnrolledComments(false)}>
+                          {unrolledComments === true && postId === post._id && (
+                            <button
+                              onClick={() => {
+                                setUnrolledComments(false);
+                                setNewComment(false);
+                                setPostId("");
+                              }}
+                            >
                               Masquer les commentaires
                             </button>
                           )}
-                          <button>Ajouter un commentaire</button>
+                          {(newComment === false || postId !== post._id) && (
+                            <button
+                              onClick={() => {
+                                setUnrolledComments(true);
+                                setNewComment(true);
+                                setPostId(post._id);
+                              }}
+                            >
+                              Ajouter un commentaire
+                            </button>
+                          )}
+                          {newComment === true && postId === post._id && (
+                            <button
+                              onClick={() => {
+                                setNewComment(false);
+                              }}
+                            >
+                              Annuler
+                            </button>
+                          )}
                         </div>
                       </div>
-                      <PostComments unrolledComments={unrolledComments} />
+
+                      <div className="comments">
+                        {newComment === true && postId === post._id && (
+                          <NewComment post={post} />
+                        )}
+                        {commentsData &&
+                          unrolledComments === true &&
+                          postId === post._id && <PostComments post={post} />}
+                      </div>
                     </article>
                   )
               )}

@@ -1,19 +1,21 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { UidContext } from "../AppContext";
+import RemoveComment from "./commentRemove";
 
 import CommentContent from "./commentsContent";
 
 function PostComments({ post }) {
   const uid = useContext(UidContext);
-  const usersData = useSelector((state) => state.users.users);
+  const userData = useSelector((state) => state.user.user);
   const commentsData = useSelector((state) => state.comments.comments);
+  const usersData = useSelector((state) => state.users.users);
 
   const [updateComment, setUpdateComment] = useState(false);
   const [deleteComment, setDeleteComment] = useState(false);
   const [commentId, setCommentId] = useState("");
 
-  if (usersData !== null && commentsData !== null) {
+  if (usersData !== null) {
     return (
       <>
         {commentsData.map(
@@ -52,7 +54,7 @@ function PostComments({ post }) {
                     commentId={commentId}
                   />
                 </div>
-                {(comment.author === uid || usersData.isAdmin === true) && (
+                {(comment.author === uid || userData.isAdmin === true) && (
                   <div className="comment-interaction">
                     {(updateComment === false || commentId !== comment._id) && (
                       <button
@@ -74,7 +76,14 @@ function PostComments({ post }) {
                         Annuler
                       </button>
                     )}
-                    <button>Supprimer le commentaire</button>
+                    <RemoveComment
+                      comment={comment}
+                      commentId={commentId}
+                      setCommentId={setCommentId}
+                      deleteComment={deleteComment}
+                      setDeleteComment={setDeleteComment}
+                      setUpdateComment={setUpdateComment}
+                    />
                   </div>
                 )}
               </div>

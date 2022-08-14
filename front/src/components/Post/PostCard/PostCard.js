@@ -88,35 +88,27 @@ function PostCard() {
                   <PostLike post={post} postId={postId} setPostId={setPostId} />
 
                   <div className="comment-interaction">
-                    {!commentsData && (
-                      <div className="about-comment">
-                        <p>Pas de commentaires</p>
-                      </div>
+                    {(unrolledComments === false || postId !== post._id) && (
+                      <button
+                        onClick={() => {
+                          setUnrolledComments(true);
+                          setPostId(post._id);
+                        }}
+                      >
+                        Afficher les commentaires
+                      </button>
                     )}
-                    {commentsData &&
-                      (unrolledComments === false || postId !== post._id) && (
-                        <button
-                          onClick={() => {
-                            setUnrolledComments(true);
-                            setPostId(post._id);
-                          }}
-                        >
-                          Afficher les commentaires
-                        </button>
-                      )}
-                    {commentsData &&
-                      unrolledComments === true &&
-                      postId === post._id && (
-                        <button
-                          onClick={() => {
-                            setUnrolledComments(false);
-                            setNewComment(false);
-                            setPostId("");
-                          }}
-                        >
-                          Masquer les commentaires
-                        </button>
-                      )}
+                    {unrolledComments === true && postId === post._id && (
+                      <button
+                        onClick={() => {
+                          setUnrolledComments(false);
+                          setNewComment(false);
+                          setPostId("");
+                        }}
+                      >
+                        Masquer les commentaires
+                      </button>
+                    )}
                     {(newComment === false || postId !== post._id) && (
                       <button
                         onClick={() => {

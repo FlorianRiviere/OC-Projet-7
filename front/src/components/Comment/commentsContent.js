@@ -34,15 +34,13 @@ function CommentContent({ updateComment, comment, commentId }) {
         )}
         {updateComment === true && commentId === comment._id && (
           <>
-            <div className="content">
-              <label htmlFor="commentContent"></label>
-              <textarea
-                name="commentContent"
-                id="commentContent"
-                defaultValue={comment.content}
-                onChange={(e) => setContent(e.target.value)}
-              ></textarea>
-            </div>
+            <label htmlFor="commentContent"></label>
+            <textarea
+              name="commentContent"
+              id="commentContent"
+              defaultValue={comment.content}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
             <div className="comment-btn-bloc">
               <button onClick={handleComment}>Valider</button>
             </div>
