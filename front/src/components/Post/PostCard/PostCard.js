@@ -132,7 +132,6 @@ function PostCard() {
                       <button
                         onClick={() => {
                           setNewComment(false);
-                          setPostId("");
                         }}
                       >
                         Annuler
@@ -142,16 +141,12 @@ function PostCard() {
                 </div>
 
                 <div className="comments">
-                  {newComment === true && postId === post._id && <NewComment />}
+                  {newComment === true && postId === post._id && (
+                    <NewComment post={post} />
+                  )}
                   {commentsData &&
                     unrolledComments === true &&
-                    postId === post._id && (
-                      <PostComments
-                        unrolledComments={unrolledComments}
-                        post={post}
-                        postId={postId}
-                      />
-                    )}
+                    postId === post._id && <PostComments post={post} />}
                 </div>
               </article>
             );

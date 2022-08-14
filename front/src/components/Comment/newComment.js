@@ -2,27 +2,28 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-function NewComment() {
+function NewComment({ post }) {
   const userData = useSelector((state) => state.user.user);
 
   const [content, setContent] = useState("");
   const author = userData._id;
+  const postId = post._id;
 
   const handleComment = (e) => {
     e.preventDefault();
     if (content === "") {
-      alert("Publication vide");
+      alert("Commentaire vide");
     }
     axios({
       method: "post",
       url: `${process.env.REACT_APP_API_URL}api/comments`,
       withCredentials: true,
-      data: { author, content },
+      data: { author, content, postId },
     })
       .then((res) => {
         // dispatch(addPost);
         console.log(res.data);
-        alert("Publication créée");
+        alert("Commentaire créé");
         window.location.reload();
       })
       .catch((err) => console.log(err));

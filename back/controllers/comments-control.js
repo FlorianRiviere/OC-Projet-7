@@ -1,29 +1,16 @@
-const Post = require("../models/post-model");
 const Comment = require("../models/comment-model");
 
 exports.createComment = (req, res, next) => {
-  Post.findOne({ _id: req.body.postId })
-    .then((post) => {
-      postData = {
-        id: post._id,
-      };
-    })
-    .catch((error) =>
-      res.status(400).json({ message: "Post introuvable", error })
-    )
-    .then(() => {
-      const comment = new Comment({
-        postId: postData.id,
-        author: req.auth.userId,
-        content: req.body.content,
-      });
+  const comment = new Comment({
+    postId: req.body.postId,
+    author: req.body.author,
+    content: req.body.content,
+  });
 
-      comment
-        .save()
-        .then(() => res.status(201).json({ message: "Commentaire ajouté !" }))
-        .catch((error) => res.status(400).json(error));
-    })
-    .catch((error) => res.status(500).json(error));
+  comment
+    .save()
+    .then(() => res.status(201).json({ message: "Commentaire ajouté !" }))
+    .catch((error) => res.status(400).json(error));
 };
 
 exports.getAllComments = (req, res, next) => {
@@ -39,21 +26,13 @@ exports.getOneComment = (req, res, next) => {
 };
 
 exports.modifyComment = (req, res, next) => {
-  if ((Post.author = req.auth.userId || req.auth.isAdmin == true)) {
-    Comment.updateOne({ _id: req.params.id }, { content: req.body.content })
-      .then(() => res.status(201).json({ message: "Commentaire modifié !" }))
-      .catch((error) => res.status(400).json(error));
-  } else {
-    res.status(400).json({ Message: "Non autorisé !" });
-  }
+  Comment.updateOne({ _id: req.params.id }, { content: req.body.content })
+    .then(() => res.status(201).json({ message: "Commentaire modifié !" }))
+    .catch((error) => res.status(400).json(error));
 };
 
 exports.deleteComment = (req, res, next) => {
-  if ((Post.author = req.auth.userId || req.auth.isAdmin == true)) {
-    Comment.deleteOne({ _id: req.params.id })
-      .then(() => res.status(201).json({ message: "Commentaire supprimé !" }))
-      .catch((error) => res.status(400).json(error));
-  } else {
-    res.status(400).json({ Message: "Non autorisé !" });
-  }
+  Comment.deleteOne({ _id: req.params.id })
+    .then(() => res.status(201).json({ message: "Commentaire supprimé !" }))
+    .catch((error) => res.status(400).json(error));
 };
