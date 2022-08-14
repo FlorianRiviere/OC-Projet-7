@@ -60,7 +60,7 @@ function Department() {
                     {usersData.map(
                       (users) =>
                         users.department === department && (
-                          <div key={users._id}>
+                          <div className="author-card-bloc" key={users._id}>
                             <div className="author-card" key={users._id}>
                               <a href={`/profil/${users._id}`}>
                                 <div className="author-image">

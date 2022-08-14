@@ -33,7 +33,7 @@ function Navbar() {
               <img
                 src={Group}
                 alt="Icone d'un groupe de personnes"
-                title="Votre service"
+                title="Services de l'entreprise"
               />
             </NavLink>
             <Logout />
