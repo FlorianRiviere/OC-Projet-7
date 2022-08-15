@@ -1,12 +1,9 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
 import { UidContext } from "../AppContext";
-import { updateUserPicture } from "../../feature/userSlice";
 
 function Picture({ paramsId, user }) {
   const uid = useContext(UidContext);
-  const dispatch = useDispatch;
   const [isUpdatingImage, setIsUpdatingImage] = useState(false);
   const [picture, setPicture] = useState(null);
 
@@ -26,10 +23,9 @@ function Picture({ paramsId, user }) {
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(() => {
-        // dispatch(updateUserPicture(data));
         alert("Image modifiée");
         setIsUpdatingImage(false);
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };

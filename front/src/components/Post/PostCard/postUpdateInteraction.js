@@ -30,7 +30,6 @@ function PostUpdateInteraction({
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(() => {
-          // dispatch(updateUserInformations);
           alert("Informations modifiées");
           setUpdatePost(false);
           window.location.reload();
@@ -44,7 +43,6 @@ function PostUpdateInteraction({
         data: { content },
       })
         .then(() => {
-          // dispatch(updateUserInformations);
           alert("Informations modifiées");
           setUpdatePost(false);
           window.location.reload();

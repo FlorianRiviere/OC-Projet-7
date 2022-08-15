@@ -39,7 +39,6 @@ const UserProfil = () => {
         },
       })
         .then(() => {
-          // dispatch(updateUserInformations);
           setFollow("");
           setUserToFollow("");
           setSendFollow(false);

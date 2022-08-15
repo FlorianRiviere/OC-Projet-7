@@ -25,7 +25,6 @@ function FollowButton({ users }) {
         },
       })
         .then(() => {
-          // dispatch(updateUserInformations);
           setFollow("");
           setUserToFollow("");
           setSendFollow(false);

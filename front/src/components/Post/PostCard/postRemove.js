@@ -18,7 +18,6 @@ function PostRemove({
       withCredentials: true,
     })
       .then(() => {
-        // dispatch(updateUserInformations);
         alert("Publication supprimée !");
         setUpdatePost(false);
         window.location.reload();

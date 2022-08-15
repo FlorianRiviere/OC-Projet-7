@@ -25,7 +25,6 @@ function PostUserCard({ post }) {
         },
       })
         .then(() => {
-          // dispatch(updateUserInformations);
           setFollow("");
           setUserToFollow("");
           setSendFollow(false);

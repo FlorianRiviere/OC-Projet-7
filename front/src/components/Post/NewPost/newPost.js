@@ -27,11 +27,10 @@ function NewPost() {
         data: { author, content },
       })
         .then((res) => {
-          // dispatch(addPost);
           console.log(res.data);
           alert("Publication créée");
           // setUploadImage(false);
-          // window.location.reload();
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     } else {
@@ -49,11 +48,10 @@ function NewPost() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then((res) => {
-          // dispatch(addPost);
           console.log(res.data);
           alert("Publication créée");
           // setUploadImage(false);
-          // window.location.reload();
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     }

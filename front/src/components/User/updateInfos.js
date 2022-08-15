@@ -1,14 +1,12 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { UidContext } from "../AppContext";
 import { options } from "../departments";
-import { updateUserInformations } from "../../feature/userSlice";
 
 function UpdateInfos({ setIsUpdatingInformations }) {
   const uid = useContext(UidContext);
 
-  const dispatch = useDispatch;
   const userData = useSelector((state) => state.user.user);
 
   const [lastName, setLastName] = useState("");
@@ -44,10 +42,9 @@ function UpdateInfos({ setIsUpdatingInformations }) {
       },
     })
       .then(() => {
-        dispatch(updateUserInformations);
         alert("Informations modifiées");
         setIsUpdatingInformations(false);
-        // window.location.reload();
+        window.location.reload();
       })
       .catch((err) => console.log(department, err));
   };
