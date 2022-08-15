@@ -74,7 +74,6 @@ function Biography({ user }) {
           </div>
         </>
       )}
-      <div className="biography-bloc"></div>
     </section>
   );
 }

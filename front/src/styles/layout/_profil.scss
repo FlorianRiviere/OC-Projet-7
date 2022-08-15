@@ -133,6 +133,8 @@
     }
 
     .biography-bloc {
+      width: 100%;
+      padding-bottom: 10px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -177,70 +179,73 @@
       flex-wrap: wrap;
       gap: 10px;
 
-      .author-card {
+      div {
         width: 100%;
-        min-width: 300px;
-        height: 70px;
-        background-color: #fff0f0;
-        border-radius: 10px 10px 10px 10px;
-        box-shadow: 1px 1px 10px #967b7b;
-        display: flex;
 
-        a {
-          width: 70%;
-          padding: 5px 0 5px 5px;
-          color: $tertiary-color;
+        .author-card {
+          width: 100%;
+          height: 70px;
+          background-color: #fff0f0;
+          border-radius: 10px 10px 10px 10px;
+          box-shadow: 1px 1px 10px #967b7b;
           display: flex;
-          gap: 10px;
 
-          .author-image {
-            width: 70px;
+          a {
+            width: 70%;
+            padding: 5px 0 5px 5px;
+            color: $tertiary-color;
+            display: flex;
+            gap: 10px;
+
+            .author-image {
+              width: 70px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              img {
+                width: 50px;
+                height: 50px;
+                border-radius: 10px 10px 10px 10px;
+              }
+            }
+
+            .author-informations {
+              width: 70%;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+
+              .name {
+                font-weight: 700;
+              }
+
+              .department {
+                font-size: smaller;
+              }
+            }
+          }
+
+          .follow-btn-bloc {
+            width: 30%;
             display: flex;
             justify-content: center;
             align-items: center;
 
-            img {
-              width: 50px;
-              height: 50px;
+            button {
+              width: 80px;
+              height: 30px;
               border-radius: 10px 10px 10px 10px;
+              border: none;
+              box-shadow: 1px 1px 5px #967b7b;
+              font-family: "lato";
+              font-size: 1em;
+              font-weight: 500;
             }
-          }
-
-          .author-informations {
-            width: 70%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-
-            .name {
-              font-weight: 700;
+            .followed-btn {
+              background-color: $secondary-color;
+              box-shadow: inset 1px 1px 5px #967b7b;
             }
-
-            .department {
-              font-size: smaller;
-            }
-          }
-        }
-
-        .follow-btn-bloc {
-          width: 30%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          button {
-            width: 80px;
-            height: 30px;
-            border-radius: 10px 10px 10px 10px;
-            border: none;
-            box-shadow: 1px 1px 5px #967b7b;
-            font-family: "lato";
-            font-size: 1em;
-            font-weight: 500;
-          }
-          .followed-btn {
-            background-color: $secondary-color;
-            box-shadow: inset 1px 1px 5px #967b7b;
           }
         }
       }
