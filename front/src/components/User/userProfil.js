@@ -50,8 +50,6 @@ const UserProfil = () => {
     handleFollow();
   }
 
-  // Modifications bio
-
   if (userData !== null && usersData !== null) {
     return (
       <>

@@ -2,9 +2,8 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { UidContext } from "../../AppContext";
-import { addPost } from "../../../feature/postsSlice";
-import NewPostUserCard from "./newPostUserCard";
-import NewPostContent from "./newPostContent";
+import NewPostUserCard from "./NewPostUserCard";
+import NewPostContent from "./NewPostContent";
 
 function NewPost() {
   const uid = useContext(UidContext);
