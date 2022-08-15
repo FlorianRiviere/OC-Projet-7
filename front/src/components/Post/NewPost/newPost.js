@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { UidContext } from "../../AppContext";
 import NewPostUserCard from "./NewPostUserCard";
 import NewPostContent from "./NewPostContent";
@@ -8,7 +8,6 @@ import NewPostContent from "./NewPostContent";
 function NewPost() {
   const uid = useContext(UidContext);
 
-  const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
   const [editPost, setEditPost] = useState(false);
 
