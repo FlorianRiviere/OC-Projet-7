@@ -23,7 +23,6 @@ function App() {
           withCredentials: true,
         })
           .then((res) => {
-            console.log(res.data._id);
             setUid(res.data._id);
             localStorage.setItem("auth", res.data._id);
           })

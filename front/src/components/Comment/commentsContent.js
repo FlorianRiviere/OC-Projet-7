@@ -17,8 +17,6 @@ function CommentContent({ updateComment, comment, commentId }) {
         data: { content },
       })
         .then((res) => {
-          // dispatch(addPost);
-          console.log(res.data);
           alert("Commentaire modifié");
           window.location.reload();
         })

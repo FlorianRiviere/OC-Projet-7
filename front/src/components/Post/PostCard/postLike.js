@@ -25,8 +25,6 @@ function PostLike({ post, postId, setPostId }) {
         },
       })
         .then(() => {
-          // dispatch(updateUserInformations);
-          console.log(postId, like);
           setPostId("");
           setLike("");
           setSendLike(false);

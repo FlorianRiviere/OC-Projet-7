@@ -21,8 +21,6 @@ function NewComment({ post }) {
       data: { author, content, postId },
     })
       .then((res) => {
-        // dispatch(addPost);
-        console.log(res.data);
         alert("Commentaire créé");
         window.location.reload();
       })

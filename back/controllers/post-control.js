@@ -62,10 +62,6 @@ exports.getOnePost = (req, res, next) => {
 // Modification d'un post
 
 exports.modifyPost = (req, res, next) => {
-  console.log(req.file);
-  console.log(req.body);
-  console.log(req.params.id);
-
   Post.findOne({ _id: req.params.id })
     .then((post) => {
       if (req.file) {
@@ -136,10 +132,6 @@ exports.deletePost = (req, res, next) => {
 // Gestion des likes
 
 exports.likePost = (req, res, next) => {
-  console.log(req.body);
-  console.log(req.body.userId);
-  console.log(req.body.like);
-
   let like = req.body.like;
 
   Post.findOne({ _id: req.params.id })

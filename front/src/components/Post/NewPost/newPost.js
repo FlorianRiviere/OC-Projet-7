@@ -27,9 +27,7 @@ function NewPost() {
         data: { author, content },
       })
         .then((res) => {
-          console.log(res.data);
           alert("Publication créée");
-          // setUploadImage(false);
           window.location.reload();
         })
         .catch((err) => console.log(err));
@@ -48,9 +46,7 @@ function NewPost() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then((res) => {
-          console.log(res.data);
           alert("Publication créée");
-          // setUploadImage(false);
           window.location.reload();
         })
         .catch((err) => console.log(err));
