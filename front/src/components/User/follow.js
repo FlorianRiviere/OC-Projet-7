@@ -15,7 +15,7 @@ function Follow({ user }) {
         <div className="following-bloc">
           {usersData.map((users) => {
             return (
-              <div key={users._id}>
+              <>
                 {user.following.includes(users._id) && (
                   <div className="author-card" key={users._id}>
                     <a href={`/profil/${users._id}`}>
@@ -37,7 +37,7 @@ function Follow({ user }) {
                     {users._id !== uid && <FollowButton users={users} />}
                   </div>
                 )}
-              </div>
+              </>
             );
           })}
         </div>
@@ -48,7 +48,7 @@ function Follow({ user }) {
         <div className="followers-bloc">
           {usersData.map((users) => {
             return (
-              <div key={users._id}>
+              <>
                 {user.followers.includes(users._id) && (
                   <div className="author-card" key={users._id}>
                     <a href={`/profil/${users._id}`}>
@@ -73,7 +73,7 @@ function Follow({ user }) {
                     )}
                   </div>
                 )}
-              </div>
+              </>
             );
           })}
         </div>
